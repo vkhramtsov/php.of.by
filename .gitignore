@@ -13,3 +13,6 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/doc/*.html
+/.idea/
+/*.apache
