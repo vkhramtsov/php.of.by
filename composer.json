@@ -27,11 +27,19 @@
         "symfony/monolog-bundle": "^2.8",
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
-        "incenteev/composer-parameter-handler": "^2.0"
+        "incenteev/composer-parameter-handler": "^2.0",
+        "symfony/assetic-bundle": "2.8.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "fabpot/php-cs-fixer": "1.*",
+        "elao/web-profiler-extra-bundle": "2.*",
+        "phpmd/phpmd": "2.*",
+        "pdepend/pdepend": "2.*",
+        "sebastian/phpcpd": "2.*",
+        "phpunit/phpunit": "5.*",
+        "squizlabs/php_codesniffer": "2.*"
     },
     "scripts": {
         "post-install-cmd": [
