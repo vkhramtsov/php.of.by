@@ -1,0 +1,316 @@
+<?xml version="1.0"?>
+<project name="php-of-by" default="build" basedir="." description="PHP UG BY site build plan">
+
+    <property file="build.properties"/>
+    <property name="project.version" value="0.0.1-SNAPSHOT"/>
+    <property name="project-app-dir" value="app" />
+    <property name="project-app-dir-config" value="${project-app-dir}/config"/>
+    <property name="project-app-cache-dir" value="${project-app-dir}/cache" />
+    <property name="project-app-logs-dir" value="${project-app-dir}/logs" />
+    <property name="project-app-resources-dir" value="${project-app-dir}/Resources" />
+    <property name="project-app-resources-configs-dir" value="${project-app-resources-dir}/configs"/>
+    <property name="project-app-resources-configs-phpmd-dir" value="${project-app-resources-configs-dir}/phpmd"/>
+    <property name="project-file-config-phpmd" value="${project-app-resources-configs-phpmd-dir}/phpmd.xml"/>
+    <property name="project-bin-dir" value="bin" />
+    <property name="project-vendor-dir" value="vendor" />
+    <property name="project-vendor-bin-dir" value="vendor/bin" />
+    <property name="project-src-dir" value="src" />
+    <property name="env" value="/usr/bin/env" />
+    <property name="php-bin" value="php" />
+    <property name="project-composer-phar" value="composer.phar" />
+    <property name="php-cs-fixer-bin" value="${project-vendor-bin-dir}/php-cs-fixer" />
+    <property name="project-web-dir" value="web"/>
+    <property name="project-web-bundles-dir" value="${project-web-dir}/bundles"/>
+    <property name="project-web-css-dir" value="${project-web-dir}/css"/>
+    <property name="project-web-dir-js" value="${project-web-dir}/js"/>
+    <property name="project-build-dir" value="build"/>
+    <property name="project-build-output-dir" value="${project-build-dir}/output"/>
+    <property name="project-file-doctrine-database-scheme" value="db-scheme.sql"/>
+    <property name="project-doctrine-database-scheme" value="${project-build-output-dir}/${project-file-doctrine-database-scheme}"/>
+    <property name="project-file-package" value="${project-build-output-dir}/${phing.project.name}-${project.version}.tar.gz"/>
+    <property name="project-file-package-version" value="version.txt"/>
+    <property name="project-doc-dir" value="doc"/>
+    <property name="symfony-bin-console" value="${project-bin-dir}/console"/>
+
+    <!-- Filesets -->
+    <fileset dir="${project-src-dir}" id="src-php">
+        <include name="**/*.php"/>
+    </fileset>
+
+    <fileset dir="${project.basedir}" id="package">
+        <include name="${project-app-dir}/**"/>
+        <exclude name="${project-app-dir-config}/parameters.yml"/>
+        <include name="${project-src-dir}/**"/>
+        <include name="${project-vendor-dir}/**/*"/>
+        <include name="${project-web-dir}/**"/>
+        <include name="${project-file-package-version}"/>
+        <include name="${project-file-doctrine-database-scheme}"/>
+    </fileset>
+
+    <fileset dir="${project.basedir}" id="symfony-temp">
+        <include name="${project-app-cache-dir}/**"/>
+        <exclude name="${project-app-cache-dir}/.gitkeep"/>
+        <include name="${project-app-logs-dir}/*"/>
+        <exclude name="${project-app-logs-dir}/.gitkeep"/>
+    </fileset>
+
+    <fileset dir="${project-doc-dir}" id="doc-rst">
+        <include name="**/*.rst"/>
+    </fileset>
+
+    <target name="projectdoc" description="Generates project documentation in HTML format from rst using python docutils">
+        <!--
+            Next two lines is woraround for pring, which wants to include particular tasks for performing this job.
+            Also prepend here works better then append.
+        -->
+        <includepath classpath="${project-vendor-dir}/pear/pear-core-minimal/src" mode="prepend"/>
+        <includepath classpath="${project-vendor-dir}/pear/console_getopt" mode="prepend"/>
+        <rST format="html">
+            <fileset refid="doc-rst"/>
+        </rST>
+    </target>
+
+    <target name="composer-validate" description="Validate composer file">
+        <composer composer="${project-composer-phar}" command="validate" />
+    </target>
+
+    <target name="check-environment" description="Check that environment is suitable for symfony">
+        <exec command="${php-bin} ${project-bin-dir}/symfony_requirements" checkreturn="true" logoutput="true" />
+    </target>
+
+    <target name="dependencies-install" description="Install all dependencies using composer">
+        <delete dir="${project-vendor-dir}" />
+        <delete dir="${project-build-output-dir}"/>
+        <delete includeemptydirs="true">
+            <fileset refid="symfony-temp"/>
+        </delete>
+        <composer composer="${project-composer-phar}" command="install">
+            <arg value="--optimize-autoloader"/>
+        </composer>
+    </target>
+
+    <target name="dependencies-install-prod" description="Install only prod dependencies using composer">
+        <delete dir="${project-vendor-dir}" />
+        <composer composer="${project-composer-phar}" command="install">
+            <arg value="--optimize-autoloader" />
+            <arg value="--no-dev" />
+        </composer>
+    </target>
+
+    <target name="dependencies-list-updates" description="Check updates for all dependencies">
+        <composer composer="${project-composer-phar}" command="update">
+            <arg value="--dry-run"/>
+        </composer>
+    </target>
+
+    <target name="dependencies-security-check" description="Check security problems for all dependencies">
+        <SymfonyConsole command="security:check" checkreturn="true" console="${symfony-bin-console}">
+            <arg value="./composer.lock" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="clean" description="Clean build artifacts">
+        <delete dir="${project-web-bundles-dir}"/>
+        <delete dir="${project-web-css-dir}"/>
+        <delete dir="${project-web-dir-js}"/>
+        <delete dir="${project-build-output-dir}"/>
+        <delete includeemptydirs="true">
+            <fileset refid="symfony-temp"/>
+        </delete>
+    </target>
+
+    <target name="symfony-twig-lint" description="Check twig templates syntax in directories">
+        <foreach list="${project.twig-templates-dirs}" param="templates.dir" target="symfony-twig-lint-dir"/>
+    </target>
+
+    <target name="symfony-twig-lint-dir" description="Check twig templates syntax in directory">
+        <SymfonyConsole command="lint:twig" checkreturn="true" console="${symfony-bin-console}">
+            <arg value="${templates.dir}" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="symfony-yaml-lint" description="Check yaml syntax in directories">
+        <foreach list="${project.yaml-dirs}" param="yamls.dir" target="symfony-yaml-lint-dir"/>
+    </target>
+
+    <target name="symfony-yaml-lint-dir" description="Check yaml syntax in directory">
+        <SymfonyConsole command="lint:yaml" checkreturn="true" console="${symfony-bin-console}">
+            <arg value="${yamls.dir}" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="phplint" description="Perform syntax check of sourcecode files">
+        <phplint  haltonfailure="true" deprecatedAsError="true">
+            <fileset refid="src-php"/>
+        </phplint>
+    </target>
+
+    <target name="php-cs-fixer" description="Fixes most issues in code as defined in the PSR-1 and PSR-2 documents">
+        <exec executable="${php-bin}" logoutput="true">
+            <arg path="${php-cs-fixer-bin}" />
+            <arg value="fix"/>
+            <arg value="${project.basedir}" />
+            <arg value="--level"/>
+            <arg value="symfony"/>
+            <arg value="--config"/>
+            <arg value="sf23"/>
+        </exec>
+    </target>
+
+    <target name="symfony-regenerate-cache-dev" description="Regenerate symfony cache in dev mode">
+        <SymfonyConsole command="cache:clear" checkreturn="true" console="${symfony-bin-console}">
+            <arg name="env" value="dev" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="symfony-regenerate-cache-prod" description="Regenerate symfony cache in prod mode">
+        <SymfonyConsole command="cache:clear" checkreturn="true" console="${symfony-bin-console}">
+            <arg name="env" value="prod" />
+            <arg value="--no-debug" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="symfony-assets-install-dev" description="Install assets in dev mode">
+        <SymfonyConsole command="assets:install" checkreturn="true" console="${symfony-bin-console}">
+            <arg name="env" value="dev" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="symfony-assets-install-prod" description="Install assets in prod mode">
+        <SymfonyConsole command="assets:install" checkreturn="true" console="${symfony-bin-console}">
+            <arg name="env" value="prod" />
+            <arg value="--no-debug" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="symfony-assetic-dump-dev" description="Dumps all assets to the filesystem for dev environment">
+        <SymfonyConsole command="assetic:dump" checkreturn="true" console="${symfony-bin-console}">
+            <arg name="env" value="dev" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="symfony-assetic-dump-prod" description="Dumps all assets to the filesystem for prod environment">
+        <SymfonyConsole command="assetic:dump" checkreturn="true" console="${symfony-bin-console}">
+            <arg name="env" value="prod" />
+            <arg value="--no-debug" />
+            <arg value="--no-interaction" />
+        </SymfonyConsole>
+    </target>
+
+    <target name="symfony-doctrine-migrations-migrate" description="Executes migrations">
+        <if>
+            <istrue value="${project.symfony-doctrine-migrations-enable}"/>
+            <then>
+                <SymfonyConsole command="doctrine:migrations:migrate" checkreturn="true" console="${symfony-bin-console}">
+                    <arg name="no-interaction"/>
+                </SymfonyConsole>
+            </then>
+        </if>
+    </target>
+
+    <target name="symfony-doctrine-schema-validate" description="Validates the doctrine mapping files"
+            depends="symfony-doctrine-migrations-migrate">
+        <SymfonyConsole command="doctrine:schema:validate" checkreturn="true" console="${symfony-bin-console}">
+            <arg name="no-interaction"/>
+        </SymfonyConsole>
+    </target>
+
+    <target name="initialize-autoload" description="Initialize autoloader">
+        <autoloader />
+    </target>
+
+    <target name="phpmd" description="Run phpmd checks" depends="initialize-autoload">
+        <phpmd rulesets="${project-file-config-phpmd}">
+            <fileset refid="src-php"/>
+        </phpmd>
+    </target>
+
+    <target name="phpcpd" description="Find duplicates in code" depends="initialize-autoload">
+        <phpcpd>
+            <fileset refid="src-php"/>
+            <formatter type="default" useFile="false"/>
+        </phpcpd>
+    </target>
+
+    <target name="phpcs" description="Run code style checks" depends="initialize-autoload">
+        <!-- add here haltonerror="true" haltonwarning="true" when phing fix issue with reports, which we don't saving to file.
+        Also we need to remove loadfile, if and delete code -->
+        <phpcodesniffer standard="PSR1,PSR2" encoding="UTF-8">
+            <fileset refid="src-php"/>
+            <formatter type="full" usefile="true" outfile="${project-build-output-dir}/phpcs.txt"/>
+        </phpcodesniffer>
+        <loadfile property="phpcs-report" file="${project-build-output-dir}/phpcs.txt"/>
+        <if>
+            <equals arg1="${phpcs-report}" arg2="" trim="true"/>
+            <then>
+            </then>
+            <else>
+                <echo message="${phpcs-report}"/>
+                <fail message=""/>
+            </else>
+        </if>
+        <delete file="${project-build-output-dir}/phpcs.txt" />
+    </target>
+
+    <target name="symfony-doctrine-dump-schema" description="Dump current database scheme">
+        <SymfonyConsole command="doctrine:schema:create" checkreturn="true" propertyName="scheme.sql" console="${symfony-bin-console}">
+            <arg name="dump-sql"/>
+            <arg name="no-interaction"/>
+        </SymfonyConsole>
+        <echo msg="123" file="${project-doctrine-database-scheme}" append="false"/>
+    </target>
+
+    <target name="package-db-schema" description="Stores DB schema in the package">
+        <copy file="${project-doctrine-database-scheme}" tofile="${project-file-doctrine-database-scheme}" haltonerror="true"
+              overwrite="true"/>
+    </target>
+
+    <target name="prepare" description="Create some dirs for build">
+        <mkdir dir="${project-build-output-dir}"/>
+    </target>
+
+    <target name="package-archive" description="Create archive ready for deployment">
+        <!-- Workaround for http://www.phing.info/trac/ticket/1066#ticket -->
+        <delete file="${project-file-package}"/>
+        <delete includeemptydirs="true">
+            <fileset refid="symfony-temp"/>
+        </delete>
+        <tar destfile="${project-file-package}" compression="gzip">
+            <fileset dir="${project.basedir}">
+                <include name="${project-app-dir}/**"/>
+                <include name="${project-app-dir}/**"/>
+                <exclude name="${project-app-dir-config}/parameters.yml"/>
+                <include name="${project-src-dir}/**"/>
+                <include name="${project-vendor-dir}/**/*"/>
+                <include name="${project-web-dir}/**"/>
+                <include name="${project-file-package-version}"/>
+                <include name="${project-file-doctrine-database-scheme}"/>
+            </fileset>
+        </tar>
+    </target>
+
+    <target name="package-version" description="Stores package version in text file">
+        <echo msg="${project.version}" file="${project-file-package-version}" append="false"/>
+    </target>
+
+    <target name="package" description="Create tar package for deployment" depends="clean,prepare,composer-validate,
+    dependencies-install-prod,symfony-regenerate-cache-prod,symfony-doctrine-dump-schema,symfony-assets-install-prod,
+    symfony-assetic-dump-prod,package-db-schema,package-version,package-archive"/>
+
+    <!-- symfony-doctrine-schema-validate,  insert this to empty line in task under -->
+    <target name="build" description="Runs build locally" depends="clean,prepare,check-environment,projectdoc,
+    composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,
+
+    phpmd,php-cs-fixer,phpcs,phpcpd,
+    symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
+    symfony-assets-install-prod,symfony-assetic-dump-prod,dependencies-list-updates,dependencies-security-check" />
+
+</project>
