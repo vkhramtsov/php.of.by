@@ -59,6 +59,12 @@
     </fileset>
 
     <target name="projectdoc" description="Generates project documentation in HTML format from rst using python docutils">
+        <!--
+            Next two lines is woraround for pring, which wants to include particular tasks for performing this job.
+            Also prepend here works better then append.
+        -->
+        <includepath classpath="${project-vendor-dir}/pear/pear-core-minimal/src" mode="prepend"/>
+        <includepath classpath="${project-vendor-dir}/pear/console_getopt" mode="prepend"/>
         <rST format="html">
             <fileset refid="doc-rst"/>
         </rST>
@@ -257,7 +263,7 @@
     <target name="symfony-doctrine-dump-schema" description="Dump current database scheme">
         <SymfonyConsole command="doctrine:schema:create" checkreturn="true" propertyName="scheme.sql" console="${symfony-bin-console}">
             <arg name="dump-sql"/>
-            <arg name="no-interaction"></arg>
+            <arg name="no-interaction"/>
         </SymfonyConsole>
         <echo msg="123" file="${project-doctrine-database-scheme}" append="false"/>
     </target>
@@ -297,11 +303,11 @@
 
     <target name="package" description="Create tar package for deployment" depends="clean,prepare,composer-validate,
     dependencies-install-prod,symfony-regenerate-cache-prod,symfony-doctrine-dump-schema,symfony-assets-install-prod,
-    symfony-assetic-dump-prod,package-db-schema,package-version,package-archive"></target>
+    symfony-assetic-dump-prod,package-db-schema,package-version,package-archive"/>
 
     <!-- symfony-doctrine-schema-validate,  insert this to empty line in task under -->
-    <target name="build" description="Runs build locally" depends="clean,prepare,check-environment,composer-validate,phplint,
-    symfony-twig-lint,symfony-yaml-lint,
+    <target name="build" description="Runs build locally" depends="clean,prepare,check-environment,projectdoc,
+    composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,
 
     phpmd,php-cs-fixer,phpcs,phpcpd,
     symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
