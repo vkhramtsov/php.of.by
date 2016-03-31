@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpOfByBundle\Tests\Controller;
+namespace PhpOfBy\PhpOfByBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

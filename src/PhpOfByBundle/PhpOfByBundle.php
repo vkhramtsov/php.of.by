@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpOfByBundle;
+namespace PhpOfBy\PhpOfByBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
