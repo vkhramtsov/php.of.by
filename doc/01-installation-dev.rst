@@ -19,18 +19,6 @@ Allow new user to perform all commands as root without password:
 
 Log in as newly created user
 
-Add dotdeb repo
-~~~~~~~~~~~~~~~
-
-  ::
-
-    echo "deb http://packages.dotdeb.org jessie all" | sudo tee -a /etc/apt/sources.list > /dev/null
-    echo "deb-src http://packages.dotdeb.org jessie all" | sudo tee -a /etc/apt/sources.list > /dev/null
-    wget https://www.dotdeb.org/dotdeb.gpg
-    sudo apt-key add dotdeb.gpg
-    sudo apt-get update
-    sudo apt-get upgrade
-
 Install common packages
 ~~~~~~~~~~~~~~~~~~~~~~~
 ``sudo apt-get install -y git bash-completion mc python-docutils``
@@ -41,9 +29,18 @@ Install web server
 ``sudo apt-get install -y apache2-mpm-prefork``
 
 
-Install PHP 7
-~~~~~~~~~~~~~
-``sudo apt-get install -y php7.0 php7.0-cli php7.0-intl php7.0-xdebug``
+Install PHP 5.6
+~~~~~~~~~~~~~~~
+Install php 5.6 using command ``sudo apt-get install -y php5 php5-cli php5-intl php5-xdebug``. Create and enable ``common.ini``:
+
+  ::
+
+    echo "; priority=99" | sudo tee /etc/php5/mods-available/common.ini > /dev/null
+    echo "date.timezone=UTC" | sudo tee -a /etc/php5/mods-available/common.ini > /dev/null
+    echo "short_open_tag=0" | sudo tee -a /etc/php5/mods-available/common.ini > /dev/null
+    echo "xdebug.max_nesting_level=250" | sudo tee -a /etc/php5/mods-available/xdebug.ini > /dev/null
+    echo "xdebug.var_display_max_depth=5" | sudo tee -a /etc/php5/mods-available/xdebug.ini > /dev/null
+    sudo php5enmod common
 
 
 Samba

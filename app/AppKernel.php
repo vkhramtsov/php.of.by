@@ -20,7 +20,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 
             //Application modules
-            new PhpOfBy\PhpOfByBundle\PhpOfByBundle(),
+            new PhpOfByBundle\PhpOfByBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
