@@ -5,7 +5,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "PhpOfBy\\": "src/PhpOfBy"
         },
         "classmap": [
             "app/AppKernel.php",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "25902c37c7f2ff370759eb38631eea3a",
+    "hash": "4371f4381a13ddcd189aefe235e133ca",
     "content-hash": "27172c07267284dfa032c418e6e6bf0b",
     "packages": [
         {
@@ -953,16 +953,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.18.1",
+            "version": "1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45"
+                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
-                "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5f56ed5212dc509c8dc8caeba2715732abb32dbf",
+                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf",
                 "shasum": ""
             },
             "require": {
@@ -977,13 +977,13 @@
                 "doctrine/couchdb": "~1.0@dev",
                 "graylog2/gelf-php": "~1.0",
                 "jakub-onderka/php-parallel-lint": "0.9",
+                "php-amqplib/php-amqplib": "~2.4",
                 "php-console/php-console": "^3.1.3",
                 "phpunit/phpunit": "~4.5",
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "raven/raven": "^0.13",
                 "ruflin/elastica": ">=0.90 <3.0",
-                "swiftmailer/swiftmailer": "~5.3",
-                "videlalvaro/php-amqplib": "~2.4"
+                "swiftmailer/swiftmailer": "~5.3"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -992,11 +992,11 @@
                 "ext-mongo": "Allow sending log messages to a MongoDB server",
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
+                "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
                 "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "raven/raven": "Allow sending log messages to a Sentry server",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
-                "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
             "type": "library",
             "extra": {
@@ -1027,7 +1027,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-03-13 16:08:35"
+            "time": "2016-04-12 18:29:35"
         },
         {
             "name": "paragonie/random_compat",
@@ -1398,20 +1398,20 @@
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v2.10.0",
+            "version": "2.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bundle.git",
-                "reference": "82fd8f36e2cccbe94faf237403c48052d4d4b77e"
+                "reference": "e7caf4936c7be82bc6d68df87f1d23a0d5bf6e00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/82fd8f36e2cccbe94faf237403c48052d4d4b77e",
-                "reference": "82fd8f36e2cccbe94faf237403c48052d4d4b77e",
+                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/e7caf4936c7be82bc6d68df87f1d23a0d5bf6e00",
+                "reference": "e7caf4936c7be82bc6d68df87f1d23a0d5bf6e00",
                 "shasum": ""
             },
             "require": {
-                "monolog/monolog": "~1.12",
+                "monolog/monolog": "~1.18",
                 "php": ">=5.3.2",
                 "symfony/config": "~2.3|~3.0",
                 "symfony/dependency-injection": "~2.3|~3.0",
@@ -1426,7 +1426,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.9.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -1454,7 +1454,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2016-03-13 15:55:56"
+            "time": "2016-04-13 16:21:01"
         },
         {
             "name": "symfony/polyfill-intl-icu",
@@ -2500,16 +2500,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "fe33716763b604ade4cb442c0794f5bd5ad73004"
+                "reference": "2431befdd451fac43fbcde94d1a92fb3b8b68f86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/fe33716763b604ade4cb442c0794f5bd5ad73004",
-                "reference": "fe33716763b604ade4cb442c0794f5bd5ad73004",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2431befdd451fac43fbcde94d1a92fb3b8b68f86",
+                "reference": "2431befdd451fac43fbcde94d1a92fb3b8b68f86",
                 "shasum": ""
             },
             "require": {
@@ -2527,7 +2527,7 @@
             },
             "suggest": {
                 "ext-dom": "*",
-                "ext-xdebug": ">=2.2.1",
+                "ext-xdebug": ">=2.4.0",
                 "ext-xmlwriter": "*"
             },
             "type": "library",
@@ -2559,7 +2559,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-03-03 08:49:08"
+            "time": "2016-04-08 08:14:53"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2741,16 +2741,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.3.0",
+            "version": "5.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "dd3001822b2df8f5add266020e3d2fd3c5db3ae9"
+                "reference": "2c6da3536035617bae3fe3db37283c9e0eb63ab3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/dd3001822b2df8f5add266020e3d2fd3c5db3ae9",
-                "reference": "dd3001822b2df8f5add266020e3d2fd3c5db3ae9",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2c6da3536035617bae3fe3db37283c9e0eb63ab3",
+                "reference": "2c6da3536035617bae3fe3db37283c9e0eb63ab3",
                 "shasum": ""
             },
             "require": {
@@ -2765,7 +2765,7 @@
                 "phpunit/php-code-coverage": "^3.3.0",
                 "phpunit/php-file-iterator": "~1.4",
                 "phpunit/php-text-template": "~1.2",
-                "phpunit/php-timer": ">=1.0.6",
+                "phpunit/php-timer": "^1.0.6",
                 "phpunit/phpunit-mock-objects": "^3.1",
                 "sebastian/comparator": "~1.1",
                 "sebastian/diff": "~1.2",
@@ -2812,7 +2812,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-03-31 21:35:50"
+            "time": "2016-04-12 16:20:08"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -3285,24 +3285,24 @@
         },
         {
             "name": "sebastian/phpcpd",
-            "version": "2.0.1",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpcpd.git",
-                "reference": "a9462153f2dd90466a010179901d31fbff598365"
+                "reference": "24d9a880deadb0b8c9680e9cfe78e30b704225db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpcpd/zipball/a9462153f2dd90466a010179901d31fbff598365",
-                "reference": "a9462153f2dd90466a010179901d31fbff598365",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpcpd/zipball/24d9a880deadb0b8c9680e9cfe78e30b704225db",
+                "reference": "24d9a880deadb0b8c9680e9cfe78e30b704225db",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "phpunit/php-timer": ">=1.0.4",
-                "sebastian/finder-facade": ">=1.1.0",
-                "sebastian/version": ">=1.0.3",
-                "symfony/console": ">=2.2.0",
+                "phpunit/php-timer": ">=1.0.6",
+                "sebastian/finder-facade": "~1.1",
+                "sebastian/version": "~1.0|~2.0",
+                "symfony/console": "~2.7|^3.0",
                 "theseer/fdomdocument": "~1.4"
             },
             "bin": [
@@ -3332,7 +3332,7 @@
             ],
             "description": "Copy/Paste Detector (CPD) for PHP code.",
             "homepage": "https://github.com/sebastianbergmann/phpcpd",
-            "time": "2014-03-31 09:25:30"
+            "time": "2016-04-17 19:32:49"
         },
         {
             "name": "sebastian/recursion-context",
@@ -3526,19 +3526,20 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.5.1",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "6731851d6aaf1d0d6c58feff1065227b7fda3ba8"
+                "reference": "1bcdf03b068a530ac1962ce671dead356eeba43b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/6731851d6aaf1d0d6c58feff1065227b7fda3ba8",
-                "reference": "6731851d6aaf1d0d6c58feff1065227b7fda3ba8",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/1bcdf03b068a530ac1962ce671dead356eeba43b",
+                "reference": "1bcdf03b068a530ac1962ce671dead356eeba43b",
                 "shasum": ""
             },
             "require": {
+                "ext-simplexml": "*",
                 "ext-tokenizer": "*",
                 "ext-xmlwriter": "*",
                 "php": ">=5.1.2"
@@ -3599,7 +3600,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-01-19 23:39:10"
+            "time": "2016-04-03 22:58:34"
         },
         {
             "name": "symfony/phpunit-bridge",
