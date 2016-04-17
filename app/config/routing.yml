@@ -1,6 +1,4 @@
-php_of_by:
-    resource: "@PhpOfByBundle/Controller/"
+website:
+    resource: "@WebsiteBundle/Controller/"
     type:     annotation
     prefix:   /
-
-

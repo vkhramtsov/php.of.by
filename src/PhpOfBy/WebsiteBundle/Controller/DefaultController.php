@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpOfByBundle\Controller;
+namespace PhpOfBy\WebsiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

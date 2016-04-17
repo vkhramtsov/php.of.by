@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpOfByBundle\Tests\Controller;
+namespace PhpOfBy\WebsiteBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -10,8 +10,8 @@ class DefaultControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/');
+        $crawler = $client->request('GET', '/');
 
-        $this->assertContains('PhpOfBy', $client->getResponse()->getContent());
+        $this->assertContains('Hello World', $client->getResponse()->getContent());
     }
 }
