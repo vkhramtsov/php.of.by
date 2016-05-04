@@ -91,7 +91,7 @@ Developers accounts
     sudo adduser --ingroup www-data $USERNAME
     sudo smbpasswd -a $USERNAME
     sudo smbpasswd -e $USERNAME
-    sudo service samba restart
+    sudo service smbd restart
     sudo ln -s /home/$USERNAME/www/phpofby/phpofby.apache /etc/apache2/sites-available/phpofby_$USERNAME.conf
     sudo sudo a2ensite phpofby_$USERNAME
     sudo service apache2 restart
