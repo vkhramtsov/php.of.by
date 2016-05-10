@@ -2,11 +2,11 @@
 
 namespace PhpOfBy\WebsiteBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use CommonBundle\Controller\AbstractServiceController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractServiceController
 {
     /**
      * @Route("/", name="home")

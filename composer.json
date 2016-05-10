@@ -5,7 +5,8 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "PhpOfBy\\": "src/PhpOfBy"
+            "PhpOfBy\\": "src/PhpOfBy",
+            "CommonBundle\\": "src/CommonBundle"
         },
         "classmap": [
             "app/AppKernel.php",

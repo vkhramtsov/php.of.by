@@ -19,8 +19,11 @@ class AppKernel extends Kernel
             //3rd party modules
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 
+            //Controller as a service bundle
+            new CommonBundle\CommonBundle(),
+
             //Application modules
-            new PhpOfBy\WebsiteBundle\WebsiteBundle()
+            new PhpOfBy\WebsiteBundle\WebsiteBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
