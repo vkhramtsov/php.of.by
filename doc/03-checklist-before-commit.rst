@@ -23,7 +23,7 @@ MVC
 ---
 
 #. All controllers should be services with ``parent:`` and ``lazy: true`` properties
-#. Configure routing via annotantions with ``@Mvc\Route`` annotation from `SensioFrameworkExtraBundle Routing annotations`_
+#. Configure routing via annotations with ``@Route`` annotation from `SensioFrameworkExtraBundle Routing annotations`_
 
 .. _SensioFrameworkExtraBundle Routing annotations: http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/routing.html#route-name
 .. _phpmd annotations: http://phpmd.org/documentation/suppress-warnings.html
