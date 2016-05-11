@@ -4,3 +4,5 @@ services:
   phpofby.website.controller.default:
     class: %phpofby.website.controller.default.class%
     parent: common.contoller.abstract
+    arguments: []
+    lazy: true
