@@ -1,4 +1,8 @@
+parameters:
+  phpofby.website.controller.default.class: PhpOfBy\WebsiteBundle\Controller\DefaultController
 services:
-#    website.example:
-#        class: PhpOfBy\WebsiteBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+  phpofby.website.controller.default:
+    class: %phpofby.website.controller.default.class%
+    parent: common.contoller.abstract
+    arguments: []
+    lazy: true
