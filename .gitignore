@@ -16,3 +16,5 @@
 /doc/*.html
 /.idea/
 /*.apache
+/web/css/*
+/web/js/*

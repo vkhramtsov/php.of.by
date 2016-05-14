@@ -7,6 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    assets_version: v=1
 
 framework:
     #esi:             ~
@@ -30,7 +31,9 @@ framework:
         save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
     fragments:       ~
     http_method_override: true
-    assets: ~
+    assets:
+        # set version of assets to simplify cache flushing
+        version: %assets_version%
 
 # Twig Configuration
 twig:
@@ -58,6 +61,31 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+
+# Assetic configuration
+assetic:
+    filters:
+        lessphp:
+            file: "%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php"
+            apply_to: "\\.less$"
+    assets:
+        min_css:
+            inputs:
+                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/general.less"
+                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/buttons.less"
+                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/grid.less"
+                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/headings.less"
+                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/icons.less"
+                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/forms.less"
+                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/navbar.less"
+                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/tables.less"
+                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/messages.less"
+            output: css/min.css
+
+        common_css:
+            inputs:
+              - "@WebsiteBundle/Resources/public/css/common.css"
+            output: css/common.css
 
 # Swiftmailer Configuration
 swiftmailer:

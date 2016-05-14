@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <title>{% if title is defined %}{{ title }} - {% endif %}PhpOfBy</title>
-    {% include 'WebsiteBundle:Css:main.html.twig' %}
+    <link rel="stylesheet" href="{{ asset('css/min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/common.css') }}" />
+    {% block stylesheets %}{% endblock %}
 </head>
 <body>
 {% include 'WebsiteBundle:Menu:nav.html.twig' %}
@@ -18,5 +20,6 @@
         {%- block content -%}{%- endblock -%}
     </section>
 </div>
+{% block javascripts %}{% endblock %}
 </body>
 </html>

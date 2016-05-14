@@ -19,6 +19,11 @@ General
 #. Verify ``phpmd`` output and add ``@SuppressWarnings`` `phpmd annotations`_ for specific rules_
 #. Don't use leading slashes before function names from global namespace
 
+Assets (JS, CSS, images)
+------------------------
+
+#. Increment ``assets_version`` in ``app/config/config.yml`` on each change to assets
+
 MVC
 ---
 
