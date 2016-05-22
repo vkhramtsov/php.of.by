@@ -64,10 +64,13 @@ doctrine:
 
 # Assetic configuration
 assetic:
+    debug:          %kernel.debug%
+    use_controller: false
     filters:
         lessphp:
             file: "%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php"
             apply_to: "\\.less$"
+        cssrewrite: ~
     assets:
         min_css:
             inputs:
@@ -81,11 +84,12 @@ assetic:
                 - "%kernel.root_dir%/../vendor/owenversteeg/min/less/tables.less"
                 - "%kernel.root_dir%/../vendor/owenversteeg/min/less/messages.less"
             output: css/min.css
-
         common_css:
             inputs:
-              - "@WebsiteBundle/Resources/public/css/common.css"
+                - "bundles/website/css/common.css"
             output: css/common.css
+            filters:
+                - cssrewrite
 
 # Swiftmailer Configuration
 swiftmailer:

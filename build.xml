@@ -22,7 +22,7 @@
     <property name="project-web-dir" value="web"/>
     <property name="project-web-bundles-dir" value="${project-web-dir}/bundles"/>
     <property name="project-web-css-dir" value="${project-web-dir}/css"/>
-    <property name="project-web-dir-js" value="${project-web-dir}/js"/>
+    <property name="project-web-js-dir" value="${project-web-dir}/js"/>
     <property name="project-build-dir" value="build"/>
     <property name="project-build-output-dir" value="${project-build-dir}/output"/>
     <property name="project-file-doctrine-database-scheme" value="db-scheme.sql"/>
@@ -113,7 +113,7 @@
     <target name="clean" description="Clean build artifacts">
         <delete dir="${project-web-bundles-dir}"/>
         <delete dir="${project-web-css-dir}"/>
-        <delete dir="${project-web-dir-js}"/>
+        <delete dir="${project-web-js-dir}"/>
         <delete dir="${project-build-output-dir}"/>
         <delete includeemptydirs="true">
             <fileset refid="symfony-temp"/>

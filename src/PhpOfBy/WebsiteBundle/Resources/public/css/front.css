@@ -1,0 +1,85 @@
+/* Index only styles */
+
+html {
+    background: #f0f0f0;
+}
+
+.row {
+    margin-top: 0;
+    overflow: hidden;
+}
+
+h1.title {
+    border-bottom: none;
+    font-size: 90px;
+    margin-top: 0;
+    color: white;
+}
+
+.intro {
+    text-align: center;
+}
+
+.intro .c2 {
+    height: 1px;
+}
+
+.intro .c4 {
+    box-sizing: border-box;
+}
+
+.intro .c4:nth-child(2) {
+    padding-right: 15px;
+}
+
+.intro .c4:nth-child(3) {
+    padding-left: 15px;
+}
+
+@media (max-width: 870px) {
+    .intro .c2 {
+        width: 16.66%;
+    }
+
+    .intro .c4 {
+        width: 33.33%;
+    }
+}
+
+@media (max-width: 660px) {
+    .intro .c2 {
+        display: none;
+    }
+
+    .intro .c4 {
+        width: 50%;
+        padding: 10px;
+    }
+}
+
+.intro .c4 p {
+    line-height: 1.4;
+}
+
+.btn.em {
+    background: #91D564;
+}
+
+.btn.em:hover {
+    background: #81c554;
+}
+
+.btn.em:active, .btn.em:focus {
+    background: #71c544;
+}
+
+/* Otherwise it spills over on iOS */
+.download-btn {
+    font-size: 1.3em;
+    padding: 8px 19px 9px;
+    line-height: 2em;
+}
+
+.btn {
+    margin: 7px 9px 7px 0;
+}
