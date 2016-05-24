@@ -70,7 +70,6 @@ assetic:
         lessphp:
             file: "%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php"
             apply_to: "\\.less$"
-        cssrewrite: ~
     assets:
         min_css:
             inputs:
@@ -86,10 +85,12 @@ assetic:
             output: css/min.css
         common_css:
             inputs:
-                - "bundles/website/css/common.css"
+                - "@WebsiteBundle/Resources/public/css/common.css"
             output: css/common.css
-            filters:
-                - cssrewrite
+        index_css:
+            inputs:
+                - "@WebsiteBundle/Resources/public/css/front.css"
+            output: css/front.css
 
 # Swiftmailer Configuration
 swiftmailer:
