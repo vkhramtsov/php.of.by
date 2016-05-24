@@ -1,1 +1,55 @@
 {% extends 'WebsiteBundle:Default:layout.html.twig' %}
+
+{% block stylesheets %}
+    {{- parent() -}}
+    {% stylesheets 'bundles/website/css/front.css' filter='cssrewrite' -%}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block hero %}
+    <div class="hero">
+        <h1 class="title">PhpOfBy</h1>
+        <h3><!-- Sample header --></h3>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row intro">
+        <div class="col c2">&nbsp;</div>
+        <div class="col c4">
+            <h3><!-- Sample header --></h3>
+            <p><!-- Sample text --></p>
+        </div>
+        <div class="col c4">
+            <h3><!-- Sample header --></h3>
+            <p><!-- Sample text --></p>
+        </div>
+        <div class="col c2">&nbsp;</div>
+    </div>
+
+    <div class="row intro">
+        <div class="col c2">&nbsp;</div>
+        <div class="col c4">
+            <h3><!-- Sample header --></h3>
+            <p><!-- Sample text --></p>
+        </div>
+        <div class="col c4">
+            <h3><!-- Sample header --></h3>
+            <p><!-- Sample text --></p>
+        </div>
+        <div class="col c2">&nbsp;</div>
+    </div>
+
+    <div class="row intro">
+        <div class="col c2">&nbsp;</div>
+        <div class="col c4">
+            <a href="https://github.com/PHP-Belarus/php.of.by/tree/master/doc" class="btn em smooth">Docs</a>
+        </div>
+        <div class="col c4">
+            <a href="https://github.com/PHP-Belarus/php.of.by" class="btn smooth download-btn">GitHub</a>
+        </div>
+        <div class="col c2">&nbsp;</div>
+    </div>
+
+{% endblock %}
