@@ -24,4 +24,4 @@ before_script:
 
 # Run build
 script:
-  - php phing.phar dependencies-install && php phing.phar
+  - php phing.phar build-ci

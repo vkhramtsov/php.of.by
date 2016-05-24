@@ -7,7 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    assets_version: v=1
+    assets_version: v=2
 
 framework:
     #esi:             ~
@@ -64,14 +64,12 @@ doctrine:
 
 # Assetic configuration
 assetic:
-    debug:          %kernel.debug%
-    use_controller: false
     filters:
         lessphp:
             file: "%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php"
             apply_to: "\\.less$"
     assets:
-        min_css:
+        common_css:
             inputs:
                 - "%kernel.root_dir%/../vendor/owenversteeg/min/less/general.less"
                 - "%kernel.root_dir%/../vendor/owenversteeg/min/less/buttons.less"
@@ -82,9 +80,6 @@ assetic:
                 - "%kernel.root_dir%/../vendor/owenversteeg/min/less/navbar.less"
                 - "%kernel.root_dir%/../vendor/owenversteeg/min/less/tables.less"
                 - "%kernel.root_dir%/../vendor/owenversteeg/min/less/messages.less"
-            output: css/min.css
-        common_css:
-            inputs:
                 - "@WebsiteBundle/Resources/public/css/common.css"
             output: css/common.css
         index_css:
