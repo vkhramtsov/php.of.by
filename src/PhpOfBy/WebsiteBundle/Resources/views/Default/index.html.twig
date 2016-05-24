@@ -1,10 +1,7 @@
 {% extends 'WebsiteBundle:Default:layout.html.twig' %}
 
 {% block stylesheets %}
-    {{- parent() -}}
-    {% stylesheets 'bundles/website/css/front.css' filter='cssrewrite' -%}
-    <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/front.css') }}"/>
 {% endblock %}
 
 {% block hero %}
