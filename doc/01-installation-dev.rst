@@ -26,7 +26,7 @@ Install common packages
 
 Install web server
 ~~~~~~~~~~~~~~~~~~
-``sudo apt-get install -y apache2-mpm-prefork``
+``sudo apt-get install -y apache2-mpm-prefork && /usr/sbin/a2enmod rewrite``
 
 
 Install PHP 5.6
