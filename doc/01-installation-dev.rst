@@ -21,12 +21,12 @@ Log in as newly created user
 
 Install common packages
 ~~~~~~~~~~~~~~~~~~~~~~~
-``sudo apt-get install -y git bash-completion mc python-docutils``
+``sudo apt-get install -y git openjdk-7-jre bash-completion mc python-docutils``
 
 
 Install web server
 ~~~~~~~~~~~~~~~~~~
-``sudo apt-get install -y apache2-mpm-prefork``
+``sudo apt-get install -y apache2-mpm-prefork && /usr/sbin/a2enmod rewrite``
 
 
 Install PHP 5.6

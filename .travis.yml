@@ -16,7 +16,7 @@ env:
 # Install additional packages
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq python-docutils
+  - sudo apt-get install -qq python-docutils openjdk-7-jre
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
@@ -24,4 +24,4 @@ before_script:
 
 # Run build
 script:
-  - php phing.phar dependencies-install && php phing.phar
+  - php phing.phar build-ci

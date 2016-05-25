@@ -313,4 +313,12 @@
     symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
     symfony-assets-install-prod,symfony-assetic-dump-prod,dependencies-list-updates,dependencies-security-check" />
 
+    <!-- symfony-doctrine-schema-validate,  insert this to empty line in task under -->
+    <target name="build-ci" description="Runs CI build" depends="dependencies-install,clean,prepare,check-environment,projectdoc,
+    composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,
+
+    phpmd,php-cs-fixer,phpcs,phpcpd,
+    symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
+    symfony-assets-install-prod,symfony-assetic-dump-prod,dependencies-list-updates,dependencies-security-check" />
+
 </project>
