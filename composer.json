@@ -1,6 +1,6 @@
 {
     "name": "chilic/php.of.by",
-    "license": "proprietary",
+    "license": "MIT",
     "description": "PHP UG site source code",
     "type": "project",
     "autoload": {
@@ -50,14 +50,14 @@
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0",
-        "fabpot/php-cs-fixer": "1.*",
         "elao/web-profiler-extra-bundle": "2.*",
         "phpmd/phpmd": "2.*",
         "pdepend/pdepend": "2.*",
         "sebastian/phpcpd": "2.*",
         "phpunit/phpunit": "5.*",
         "squizlabs/php_codesniffer": "2.*",
-        "pear/pear-core-minimal": "1.*"
+        "pear/pear-core-minimal": "1.*",
+        "friendsofphp/php-cs-fixer": "1.*"
     },
     "scripts": {
         "post-install-cmd": [
