@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "53c1a9bdf0ba3d80ad4e89ffa5503f9f",
-    "content-hash": "a320fa8fcb6092d1b1159233b006909c",
+    "hash": "886e7153b7e023ff55fbe079a1ef93f3",
+    "content-hash": "c795a2ba69e86ebcfce95b9bc19f3018",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2118,17 +2118,17 @@
             "time": "2015-12-21 16:18:05"
         },
         {
-            "name": "fabpot/php-cs-fixer",
-            "version": "v1.11.2",
+            "name": "friendsofphp/php-cs-fixer",
+            "version": "v1.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "41f70154642ec0f9ea9ea9c290943f3b5dfa76fc"
+                "reference": "b0a383d856d884d6b16e15892f507ecf89f8dbd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/41f70154642ec0f9ea9ea9c290943f3b5dfa76fc",
-                "reference": "41f70154642ec0f9ea9ea9c290943f3b5dfa76fc",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/b0a383d856d884d6b16e15892f507ecf89f8dbd2",
+                "reference": "b0a383d856d884d6b16e15892f507ecf89f8dbd2",
                 "shasum": ""
             },
             "require": {
@@ -2169,7 +2169,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2016-02-26 07:37:29"
+            "time": "2016-05-26 23:49:24"
         },
         {
             "name": "myclabs/deep-copy",
