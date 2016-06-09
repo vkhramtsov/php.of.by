@@ -18,11 +18,17 @@ General
 #. Do not add comma after last array element
 #. Verify ``phpmd`` output and add ``@SuppressWarnings`` `phpmd annotations`_ for specific rules_
 #. Don't use leading slashes before function names from global namespace
+#. Don't fo
 
 Assets (JS, CSS, images)
 ------------------------
 
 #. Increment ``assets_version`` in ``app/config/config.yml`` on each change to assets
+
+New bundle
+----------
+
+#. Add it to ``app/config/config_app_prod.yml`` to ``bundles`` section if bundle contains templates
 
 MVC
 ---
