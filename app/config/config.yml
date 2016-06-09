@@ -33,7 +33,7 @@ framework:
     http_method_override: true
     assets:
         # set version of assets to simplify cache flushing
-        version: %assets_version%
+        version: '%assets_version%'
 
 # Twig Configuration
 twig:
