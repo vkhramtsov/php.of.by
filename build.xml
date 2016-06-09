@@ -54,13 +54,18 @@
         <exclude name="${project-app-logs-dir}/.gitkeep"/>
     </fileset>
 
+    <fileset dir="${project.basedir}" id="symfony-dev-only-files">
+        <include name="${project-web-dir}/app_dev.php"/>
+        <include name="${project-web-dir}/config.php"/>
+    </fileset>
+
     <fileset dir="${project-doc-dir}" id="doc-rst">
         <include name="**/*.rst"/>
     </fileset>
 
     <target name="projectdoc" description="Generates project documentation in HTML format from rst using python docutils">
         <!--
-            Next two lines is woraround for pring, which wants to include particular tasks for performing this job.
+            Next two lines is workaround for phing, which wants to include particular tasks for performing this job.
             Also prepend here works better then append.
         -->
         <includepath classpath="${project-vendor-dir}/pear/pear-core-minimal/src" mode="prepend"/>
@@ -117,6 +122,12 @@
         <delete dir="${project-build-output-dir}"/>
         <delete includeemptydirs="true">
             <fileset refid="symfony-temp"/>
+        </delete>
+    </target>
+
+    <target name="clean-dev-only-files" description="Clean dev files">
+        <delete>
+            <fileset refid="symfony-dev-only-files"/>
         </delete>
     </target>
 
@@ -301,9 +312,13 @@
         <echo msg="${project.version}" file="${project-file-package-version}" append="false"/>
     </target>
 
+    <target name="build-prod" description="Create code for upload to production" depends="clean,clean-dev-only-files,
+    prepare,composer-validate,dependencies-install-prod,symfony-regenerate-cache-prod,symfony-assets-install-prod,
+    symfony-assetic-dump-prod" />
+
     <target name="package" description="Create tar package for deployment" depends="clean,prepare,composer-validate,
     dependencies-install-prod,symfony-regenerate-cache-prod,symfony-doctrine-dump-schema,symfony-assets-install-prod,
-    symfony-assetic-dump-prod,package-db-schema,package-version,package-archive"/>
+    symfony-assetic-dump-prod,package-db-schema,package-version,package-archive" />
 
     <!-- symfony-doctrine-schema-validate,  insert this to empty line in task under -->
     <target name="build" description="Runs build locally" depends="clean,prepare,check-environment,projectdoc,
