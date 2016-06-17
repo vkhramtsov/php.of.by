@@ -26,6 +26,7 @@ after_success:
   - chmod 600 .travis/deploy.key
   - ssh-add .travis/deploy.key
   - sh ./bin/run-prod-build.sh
+  - rm -Rf build
   - mkdir build
   - mv * build
   - tar -czf package.tgz build
