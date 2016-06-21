@@ -8,6 +8,8 @@ imports:
 parameters:
     locale: en
     assets_version: v=2
+    project_name: php.of.by
+    project_version: "~PROJECT_VERSION~"
 
 framework:
     #esi:             ~
@@ -39,6 +41,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        project_name: '%project_name%'
+        project_version: '%project_version%'
 
 # Doctrine Configuration
 doctrine:

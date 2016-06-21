@@ -2,7 +2,8 @@
 <project name="php-of-by" default="build" basedir="." description="PHP UG BY site build plan">
 
     <property file="build.properties"/>
-    <property name="project.version" value="0.0.1-SNAPSHOT"/>
+    <property name="project-version" value="${env.TRAVIS_TAG}.${env.TRAVIS_BUILD_NUMBER}"/>
+    <property name="project-file-config-version" value="${project-app-dir-config}/config.yml"/>
     <property name="project-app-dir" value="app" />
     <property name="project-app-dir-config" value="${project-app-dir}/config"/>
     <property name="project-app-cache-dir" value="${project-app-dir}/cache" />
@@ -27,7 +28,7 @@
     <property name="project-build-output-dir" value="${project-build-dir}/output"/>
     <property name="project-file-doctrine-database-scheme" value="db-scheme.sql"/>
     <property name="project-doctrine-database-scheme" value="${project-build-output-dir}/${project-file-doctrine-database-scheme}"/>
-    <property name="project-file-package" value="${project-build-output-dir}/${phing.project.name}-${project.version}.tar.gz"/>
+    <property name="project-file-package" value="${project-build-output-dir}/${phing.project.name}-${project-version}.tar.gz"/>
     <property name="project-file-package-version" value="version.txt"/>
     <property name="project-doc-dir" value="doc"/>
     <property name="symfony-bin-console" value="${project-bin-dir}/console"/>
@@ -309,12 +310,29 @@
     </target>
 
     <target name="package-version" description="Stores package version in text file">
-        <echo msg="${project.version}" file="${project-file-package-version}" append="false"/>
+        <echo msg="${project-version}" file="${project-file-package-version}" append="false"/>
+    </target>
+
+    <target name="build-timestamp" description="Generates timestamp for the build">
+        <tstamp>
+            <format property="project-timestamp" pattern="%Y-%m-%d %H:%M"/>
+        </tstamp>
+    </target>
+
+
+    <target name="file-update-version" description="Updates application version in the text file" depends="build-timestamp">
+        <reflexive file="${project-file-config-version}">
+            <filterchain>
+                <replacetokens begintoken="~" endtoken="~">
+                    <token key="PROJECT_VERSION" value="${project-version} ${project-timestamp}" />
+                </replacetokens>
+            </filterchain>
+        </reflexive>
     </target>
 
     <target name="build-prod" description="Create code for upload to production" depends="clean,clean-dev-only-files,
-    prepare,composer-validate,dependencies-install-prod,symfony-regenerate-cache-prod,symfony-assets-install-prod,
-    symfony-assetic-dump-prod" />
+    prepare,file-update-version, composer-validate,dependencies-install-prod,symfony-regenerate-cache-prod,
+    symfony-assets-install-prod,symfony-assetic-dump-prod" />
 
     <target name="package" description="Create tar package for deployment" depends="clean,prepare,composer-validate,
     dependencies-install-prod,symfony-regenerate-cache-prod,symfony-doctrine-dump-schema,symfony-assets-install-prod,
