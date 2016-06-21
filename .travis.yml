@@ -23,6 +23,6 @@ addons:
 
 deploy:
   provider: script
-  script: bin/run-prod-build.sh
+  script: bin/deploy-to-prod.sh
   on:
       tags: true
