@@ -5,7 +5,6 @@ if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ $(phpenv version-name) = "7.0" ];
     eval "$(ssh-agent -s)"
     chmod 600 .travis/deploy.key
     ssh-add .travis/deploy.key
-    sh ./bin/run-prod-build.sh
     mkdir build
     mv * build
     tar -czf package.tgz build
