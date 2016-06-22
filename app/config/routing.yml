@@ -1,4 +1,3 @@
-website:
-    resource: "@WebsiteBundle/Controller/"
-    type:     annotation
-    prefix:   /
+phpofby_website:
+    resource: "@PhpOfByWebsiteBundle/Resources/config/routing.yml"
+    prefix: /

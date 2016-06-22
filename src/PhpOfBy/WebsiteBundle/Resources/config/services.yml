@@ -1,8 +1,9 @@
 parameters:
-  phpofby.website.controller.default.class: PhpOfBy\WebsiteBundle\Controller\DefaultController
+  phpofby_website.controller.default.class: PhpOfBy\WebsiteBundle\Controller\DefaultController
+
 services:
-  phpofby.website.controller.default:
-    class: '%phpofby.website.controller.default.class%'
+  phpofby_website.controller.default:
+    class: '%phpofby_website.controller.default.class%'
     parent: common.contoller.abstract
     arguments: []
     lazy: true
