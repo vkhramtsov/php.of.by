@@ -23,7 +23,7 @@ class AppKernel extends Kernel
             new CommonBundle\CommonBundle(),
 
             //Application modules
-            new PhpOfBy\WebsiteBundle\WebsiteBundle(),
+            new PhpOfBy\WebsiteBundle\PhpOfByWebsiteBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -4,6 +4,6 @@ namespace PhpOfBy\WebsiteBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class WebsiteBundle extends Bundle
+class PhpOfByWebsiteBundle extends Bundle
 {
 }

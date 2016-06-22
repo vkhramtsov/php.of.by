@@ -1,0 +1,3 @@
+phpofby_website_annotation:
+    resource: "@PhpOfByWebsiteBundle/Controller"
+    type: annotation

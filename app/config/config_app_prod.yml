@@ -2,7 +2,7 @@ assetic:
     debug:          false
     use_controller: false
     bundles:
-      - WebsiteBundle
+      - PhpOfByWebsiteBundle
     filters:
       yui_css:
         jar: "%kernel.root_dir%/Resources/java/yuicompressor/yuicompressor-2.4.8.jar"

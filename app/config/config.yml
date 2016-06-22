@@ -85,11 +85,11 @@ assetic:
                 - "%kernel.root_dir%/../vendor/owenversteeg/min/less/navbar.less"
                 - "%kernel.root_dir%/../vendor/owenversteeg/min/less/tables.less"
                 - "%kernel.root_dir%/../vendor/owenversteeg/min/less/messages.less"
-                - "@WebsiteBundle/Resources/public/css/common.css"
+                - "@PhpOfByWebsiteBundle/Resources/public/css/common.css"
             output: css/common.css
         index_css:
             inputs:
-                - "@WebsiteBundle/Resources/public/css/front.css"
+                - "@PhpOfByWebsiteBundle/Resources/public/css/front.css"
             output: css/front.css
 
 # Swiftmailer Configuration
