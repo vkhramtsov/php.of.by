@@ -7,7 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    assets_version: v=2
+    assets_version: v=3
     project_name: php.of.by
     project_version: "~PROJECT_VERSION~"
 
