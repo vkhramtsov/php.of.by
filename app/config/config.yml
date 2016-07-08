@@ -44,6 +44,7 @@ twig:
     globals:
         project_name: '%project_name%'
         project_version: '%project_version%'
+        google_analytics_id: '%google_analytics_id%'
 
 # Doctrine Configuration
 doctrine:
