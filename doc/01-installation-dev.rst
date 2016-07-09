@@ -44,7 +44,7 @@ Install php 5.6 using command ``sudo apt-get install -y php5 php5-cli php5-intl 
 
 Install PHP 7.*
 ~~~~~~~~~~~~~~~
-Enable http://dotdeb.org repository
+Enable http://dotdeb.org repository:
 
   ::
 
