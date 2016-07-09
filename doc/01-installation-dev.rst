@@ -45,6 +45,7 @@ Install php 5.6 using command ``sudo apt-get install -y php5 php5-cli php5-intl 
 Install PHP 7.*
 ~~~~~~~~~~~~~~~
 Enable http://dotdeb.org repository
+
   ::
 
     wget https://www.dotdeb.org/dotdeb.gpg sudo apt-key add dotdeb.gpg
