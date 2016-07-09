@@ -42,6 +42,26 @@ Install php 5.6 using command ``sudo apt-get install -y php5 php5-cli php5-intl 
     echo "xdebug.var_display_max_depth=5" | sudo tee -a /etc/php5/mods-available/xdebug.ini > /dev/null
     sudo php5enmod common
 
+Install PHP 7.*
+~~~~~~~~~~~~~~~
+Enable dotdeb.org repository
+  ::
+
+    wget https://www.dotdeb.org/dotdeb.gpg sudo apt-key add dotdeb.gpg
+    echo "deb http://packages.dotdeb.org jessie all" | sudo tee -a /etc/apt/sources.list > /dev/null
+    echo "deb-src http://packages.dotdeb.org jessie all" | sudo tee -a /etc/apt/sources.list > /dev/null
+    sudo apt-get update
+
+Install php 7.* using command ``sudo apt-get install -y php7.0 php7.0-cli php7.0-intl php7.0-xdebug php7.0-xml`` . Create and enable ``common.ini``:
+
+  ::
+
+    echo "; priority=99" | sudo tee /etc/php/7.0/mods-available/common.ini > /dev/null
+    echo "short_open_tag=0" | sudo tee -a /etc/php/7.0/mods-available/common.ini > /dev/null
+    echo "xdebug.max_nesting_level=250" | sudo tee -a /etc/php/7.0/mods-available/xdebug.ini > /dev/null
+    echo "xdebug.var_display_max_depth=5" | sudo tee -a /etc/php/7.0/mods-available/xdebug.ini > /dev/null
+    sudo phpenmod common
+
 
 Samba
 ~~~~~
