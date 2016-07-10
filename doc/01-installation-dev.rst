@@ -48,7 +48,7 @@ Enable http://dotdeb.org repository:
 
   ::
 
-    wget https://www.dotdeb.org/dotdeb.gpg sudo apt-key add dotdeb.gpg
+    wget https://www.dotdeb.org/dotdeb.gpg && sudo apt-key add dotdeb.gpg
     echo "deb http://packages.dotdeb.org jessie all" | sudo tee -a /etc/apt/sources.list > /dev/null
     echo "deb-src http://packages.dotdeb.org jessie all" | sudo tee -a /etc/apt/sources.list > /dev/null
     sudo apt-get update
