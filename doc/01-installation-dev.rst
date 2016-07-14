@@ -26,12 +26,12 @@ Install common packages
 
 Install web server
 ~~~~~~~~~~~~~~~~~~
-``sudo apt-get install -y apache2-mpm-prefork && /usr/sbin/a2enmod rewrite``
+``sudo apt-get install -y apache2-mpm-prefork && sudo /usr/sbin/a2enmod rewrite``
 
 
 Install PHP 5.6
 ~~~~~~~~~~~~~~~
-Install php 5.6 using command ``sudo apt-get install -y php5 php5-cli php5-intl php5-xdebug``. Create and enable ``common.ini``:
+Install php 5.6 using command ``sudo apt-get install -y php5 php5-cli php5-intl php5-xdebug php5-mysqlnd``. Create and enable ``common.ini``:
 
   ::
 
@@ -53,7 +53,7 @@ Enable http://dotdeb.org repository:
     echo "deb-src http://packages.dotdeb.org jessie all" | sudo tee -a /etc/apt/sources.list > /dev/null
     sudo apt-get update
 
-Install php 7.0 using command ``sudo apt-get install -y php7.0 php7.0-cli php7.0-intl php7.0-xdebug`` . Create and enable ``common.ini``:
+Install php 7.0 using command ``sudo apt-get install -y php7.0 php7.0-cli php7.0-intl php7.0-xdebug php7.0-mysql`` . Create and enable ``common.ini``:
 
   ::
 
