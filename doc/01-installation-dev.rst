@@ -26,12 +26,12 @@ Install common packages
 
 Install web server
 ~~~~~~~~~~~~~~~~~~
-``sudo apt-get install -y apache2-mpm-prefork && /usr/sbin/a2enmod rewrite``
+``sudo apt-get install -y apache2-mpm-prefork && sudo /usr/sbin/a2enmod rewrite``
 
 
 Install PHP 5.6
 ~~~~~~~~~~~~~~~
-Install php 5.6 using command ``sudo apt-get install -y php5 php5-cli php5-intl php5-xdebug``. Create and enable ``common.ini``:
+Install php 5.6 using command ``sudo apt-get install -y php5 php5-cli php5-intl php5-xdebug php5-mysqlnd``. Create and enable ``common.ini``:
 
   ::
 
@@ -53,7 +53,7 @@ Enable http://dotdeb.org repository:
     echo "deb-src http://packages.dotdeb.org jessie all" | sudo tee -a /etc/apt/sources.list > /dev/null
     sudo apt-get update
 
-Install php 7.0 using command ``sudo apt-get install -y php7.0 php7.0-cli php7.0-intl php7.0-xdebug`` . Create and enable ``common.ini``:
+Install php 7.0 using command ``sudo apt-get install -y php7.0 php7.0-cli php7.0-intl php7.0-xdebug php7.0-mysql``. Create and enable ``common.ini``:
 
   ::
 
@@ -103,6 +103,20 @@ Sudo for developer account
     echo "DEVELOPERS ALL=NOPASSWD: SERVICE_CMDS" | sudo tee -a /etc/sudoers.d/developers > /dev/null
 
 
+Install MySQL
+~~~~~~~~~~~~~
+Install mysql 5.5 using command ``sudo apt-get install -y mysql-client-5.5 mysql-server-5.5``. Set ``root`` as password for ``root`` account. Update ``my.cnf`` and restart mysql
+
+  ::
+
+    echo "[mysqld]" | sudo tee /etc/mysql/my.cnf > /dev/null
+    echo "character_set_server              = cp1251" | sudo tee -a /etc/mysql/my.cnf > /dev/null
+    echo "default_storage_engine            = MyISAM" | sudo tee -a /etc/mysql/my.cnf > /dev/null
+    echo "[mysql]" | sudo tee -a /etc/mysql/my.cnf > /dev/null
+    echo "default-character-set             = cp1251" | sudo tee -a /etc/mysql/my.cnf > /dev/null
+    sudo service mysql restart
+
+
 Developers accounts
 ~~~~~~~~~~~~~~~~~~~
 
@@ -113,6 +127,9 @@ Developers accounts
     sudo smbpasswd -a $USERNAME
     sudo smbpasswd -e $USERNAME
     sudo service smbd restart
+    mysql -uroot -proot -e "create database phpofby_$USERNAME;\
+        grant all on phpofby_$USERNAME.* to 'symfony'@'localhost' identified by 'symfony';\
+        grant all on phpofby_$USERNAME.* to 'symfony'@'%' identified by 'symfony';"
     sudo ln -s /home/$USERNAME/www/phpofby/phpofby.apache /etc/apache2/sites-available/phpofby_$USERNAME.conf
     sudo sudo a2ensite phpofby_$USERNAME
     sudo service apache2 restart
