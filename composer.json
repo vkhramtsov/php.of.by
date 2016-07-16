@@ -48,7 +48,8 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "symfony/assetic-bundle": "2.8.*",
         "oyejorge/less.php": "1.7.*",
-        "owenversteeg/min": "dev-gh-pages#fe73afc9e1a0ae3492ad3af2efeb0f4d47f967cc"
+        "owenversteeg/min": "dev-gh-pages#fe73afc9e1a0ae3492ad3af2efeb0f4d47f967cc",
+        "doctrine/doctrine-migrations-bundle": "1.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
