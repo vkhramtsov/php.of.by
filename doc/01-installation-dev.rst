@@ -127,7 +127,7 @@ Developers accounts
     sudo smbpasswd -a $USERNAME
     sudo smbpasswd -e $USERNAME
     sudo service smbd restart
-    mysql -uroot -proot -e "create database phpofby_$USERNAME;\
+    mysql -uroot -proot -e "create database phpofby_$USERNAME DEFAULT CHARACTER SET utf8 ;\
         grant all on phpofby_$USERNAME.* to 'symfony'@'localhost' identified by 'symfony';\
         grant all on phpofby_$USERNAME.* to 'symfony'@'%' identified by 'symfony';"
     sudo ln -s /home/$USERNAME/www/phpofby/phpofby.apache /etc/apache2/sites-available/phpofby_$USERNAME.conf

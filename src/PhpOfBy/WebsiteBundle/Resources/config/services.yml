@@ -6,4 +6,3 @@ services:
     class: '%phpofby_website.controller.default.class%'
     parent: common.contoller.abstract
     arguments: []
-    lazy: true
