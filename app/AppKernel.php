@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             //3rd party modules
             new Symfony\Bundle\AsseticBundle\AsseticBundle(), // Manage assets
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(), // DB migrations
+            new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(), // Admininstration
 
             //Controller as a service bundle
             new CommonBundle\CommonBundle(),
