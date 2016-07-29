@@ -1,0 +1,9 @@
+Upgrade plan for version 0.1.x
+------------------------------
+After Upgrade
+=============
+
+#. Add first user to database using command ``php bin/console fos:user:create <login> <email> <password> --super-admin`` where:
+    - ``<login>`` is login for new user
+    - ``<email>`` is email address of new user
+    - ``<password>`` is password for new user

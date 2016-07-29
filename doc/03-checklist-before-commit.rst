@@ -58,8 +58,6 @@ Doctrine
 #. Specify entity classes without namespace (if entities are in the same namespace) in relations
 #. Don't use reserved words as table names. Specify table name manually if necessary.
 #. Each pull request should contain exactly one migration
-#. If the entity is placed in the new bundle then you have to add bundle name to
-   ``doctrine:orm:entity_managers:default:mappings`` in ``app/config/config_app.yml``
 
 Assets (JS, CSS, images)
 ------------------------

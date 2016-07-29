@@ -10,10 +10,11 @@ parameters:
     assets_version: v=3
     project_name: php.of.by
     project_version: "~PROJECT_VERSION~"
+    fos_user_bundle_user_class: PhpOfBy\SecurityBundle\Entity\User
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -100,3 +101,39 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# Doctrine extensions configuration
+stof_doctrine_extensions:
+    orm:
+        default:
+            timestampable: true
+
+fos_user:
+    db_driver: orm
+    firewall_name: webui_secured
+    user_class: '%fos_user_bundle_user_class%'
+    service:
+      user_manager: phpofby_security.service.user
+
+easy_admin:
+    entities:
+        User:
+            class: '%fos_user_bundle_user_class%'
+            list:
+                fields: ['username', 'email', 'enabled', 'lastLogin', 'locked', 'createdAt', 'updatedAt']
+            new:
+                fields:
+                    - 'enabled'
+                    - 'username'
+                    - 'email'
+                    - { property: 'plainPassword', type: 'text', label: 'Password' }
+                    - 'roles'
+                    - 'lastLogin'
+            edit:
+                fields:
+                      - 'enabled'
+                      - 'username'
+                      - 'email'
+                      - { property: 'plainPassword', type: 'text', label: 'Password', type_options: { required: false }}
+                      - 'roles'
+                      - 'lastLogin'

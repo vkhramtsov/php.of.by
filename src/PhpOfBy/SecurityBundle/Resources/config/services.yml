@@ -1,0 +1,13 @@
+parameters:
+  phpofby_security.service.user.class: PhpOfBy\SecurityBundle\Service\UserManagerServiceDoctrineOrm
+
+services:
+  phpofby_security.service.user:
+    class: '%phpofby_security.service.user.class%'
+    lazy: true
+    arguments:
+      - '@security.encoder_factory'
+      - '@fos_user.util.username_canonicalizer'
+      - '@fos_user.util.email_canonicalizer'
+      - '@fos_user.object_manager'
+      - '%fos_user.model.user.class%'

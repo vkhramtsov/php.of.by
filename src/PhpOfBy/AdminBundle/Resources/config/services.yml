@@ -1,0 +1,9 @@
+parameters:
+  phpofby_admin.controller.admin.class: PhpOfBy\AdminBundle\Controller\AdminController
+
+services:
+  phpofby_admin.controller.admin.class:
+    class: '%phpofby_admin.controller.admin.class%'
+    lazy: true
+    arguments:
+        - '@fos_user.user_manager'
