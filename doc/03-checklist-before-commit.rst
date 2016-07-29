@@ -75,6 +75,14 @@ MVC
 #. All controllers should be services with ``parent:`` and ``lazy: true`` properties
 #. Configure routing via annotations with ``@Route`` annotation from `SensioFrameworkExtraBundle Routing annotations`_
 
+Configuration
+-------------
+
+#. Check that ``app/config/config.yml`` has ``~PROJECT_VERSION~`` token instead of real version
+#. Don't forget to alter configs
+    - ``app/config/parameters.yml.dist``
+    - ``app/config/parameters_ci.yml``
+
 .. _Fluent interface: http://martinfowler.com/bliki/FluentInterface.html
 .. _Doctrine Annotations: http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html
 .. _SensioFrameworkExtraBundle Routing annotations: http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/routing.html#route-name
