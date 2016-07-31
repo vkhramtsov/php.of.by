@@ -58,8 +58,6 @@ Doctrine
 #. Specify entity classes without namespace (if entities are in the same namespace) in relations
 #. Don't use reserved words as table names. Specify table name manually if necessary.
 #. Each pull request should contain exactly one migration
-#. If the entity is placed in the new bundle then you have to add bundle name to
-   ``doctrine:orm:entity_managers:default:mappings`` in ``app/config/config_app.yml``
 
 Assets (JS, CSS, images)
 ------------------------
@@ -76,6 +74,14 @@ MVC
 
 #. All controllers should be services with ``parent:`` and ``lazy: true`` properties
 #. Configure routing via annotations with ``@Route`` annotation from `SensioFrameworkExtraBundle Routing annotations`_
+
+Configuration
+-------------
+
+#. Check that ``app/config/config.yml`` has ``~PROJECT_VERSION~`` token instead of real version
+#. Don't forget to alter configs
+    - ``app/config/parameters.yml.dist``
+    - ``app/config/parameters_ci.yml``
 
 .. _Fluent interface: http://martinfowler.com/bliki/FluentInterface.html
 .. _Doctrine Annotations: http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html

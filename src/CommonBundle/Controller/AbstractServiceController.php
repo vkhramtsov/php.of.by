@@ -20,7 +20,7 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 /**
- * Here we supress phpmd warning because we have to use all this objects.
+ * Here we suppress phpmd warning because we have to use all this objects.
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

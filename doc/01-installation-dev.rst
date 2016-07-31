@@ -36,7 +36,7 @@ Install php 5.6 using command ``sudo apt-get install -y php5 php5-cli php5-intl 
   ::
 
     echo "; priority=99" | sudo tee /etc/php5/mods-available/common.ini > /dev/null
-    echo "date.timezone=UTC" | sudo tee -a /etc/php5/mods-available/common.ini > /dev/null
+    echo "date.timezone=Europe/Minsk" | sudo tee -a /etc/php5/mods-available/common.ini > /dev/null
     echo "short_open_tag=0" | sudo tee -a /etc/php5/mods-available/common.ini > /dev/null
     echo "xdebug.max_nesting_level=250" | sudo tee -a /etc/php5/mods-available/xdebug.ini > /dev/null
     echo "xdebug.var_display_max_depth=5" | sudo tee -a /etc/php5/mods-available/xdebug.ini > /dev/null
@@ -58,6 +58,7 @@ Install php 7.0 using command ``sudo apt-get install -y php7.0 php7.0-cli php7.0
   ::
 
     echo "; priority=99" | sudo tee /etc/php/7.0/mods-available/common.ini > /dev/null
+    echo "date.timezone=Europe/Minsk" | sudo tee -a /etc/php5/mods-available/common.ini > /dev/null
     echo "short_open_tag=0" | sudo tee -a /etc/php/7.0/mods-available/common.ini > /dev/null
     echo "xdebug.max_nesting_level=250" | sudo tee -a /etc/php/7.0/mods-available/xdebug.ini > /dev/null
     echo "xdebug.var_display_max_depth=5" | sudo tee -a /etc/php/7.0/mods-available/xdebug.ini > /dev/null

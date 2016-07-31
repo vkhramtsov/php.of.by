@@ -13,7 +13,7 @@ before_install:
   - sudo apt-get install -qq python-docutils openjdk-7-jre
 
 before_script:
-  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS phpofby;" -uroot; fi
+  - if [ "$DB" == "mysql" ]; then mysql -e "create database phpofby DEFAULT CHARACTER SET utf8 ; grant all on phpofby.* to 'symfony'@'localhost' identified by 'symfony';" -uroot; fi
 
 script:
   - php phing.phar build-ci

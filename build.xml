@@ -3,9 +3,10 @@
 
     <property file="build.properties"/>
     <property name="project-version" value="${env.TRAVIS_TAG}.${env.TRAVIS_BUILD_NUMBER}"/>
-    <property name="project-file-config-version" value="${project-app-dir-config}/config.yml"/>
+    <property name="project-file-config-version" value="${project-app-config-dir}/config.yml"/>
+    <property name="project.file-config-parameters-ci" value="${project-app-config-dir}/parameters_ci.yml"/>
     <property name="project-app-dir" value="app" />
-    <property name="project-app-dir-config" value="${project-app-dir}/config"/>
+    <property name="project-app-config-dir" value="${project-app-dir}/config"/>
     <property name="project-app-cache-dir" value="${project-app-dir}/cache" />
     <property name="project-app-logs-dir" value="${project-app-dir}/logs" />
     <property name="project-app-resources-dir" value="${project-app-dir}/Resources" />
@@ -40,7 +41,7 @@
 
     <fileset dir="${project.basedir}" id="package">
         <include name="${project-app-dir}/**"/>
-        <exclude name="${project-app-dir-config}/parameters.yml"/>
+        <exclude name="${project-app-config-dir}/parameters.yml"/>
         <include name="${project-src-dir}/**"/>
         <include name="${project-vendor-dir}/**/*"/>
         <include name="${project-web-dir}/**"/>
@@ -285,6 +286,11 @@
               overwrite="true"/>
     </target>
 
+    <target name="copy-configs-ci" description="Copy configs for CI server">
+        <copy file="${project.file-config-parameters-ci}" tofile="${project-app-config-dir}/parameters.yml"
+              overwrite="true" haltonerror="true"/>
+    </target>
+
     <target name="prepare" description="Create some dirs for build">
         <mkdir dir="${project-build-output-dir}"/>
     </target>
@@ -299,7 +305,7 @@
             <fileset dir="${project.basedir}">
                 <include name="${project-app-dir}/**"/>
                 <include name="${project-app-dir}/**"/>
-                <exclude name="${project-app-dir-config}/parameters.yml"/>
+                <exclude name="${project-app-config-dir}/parameters.yml"/>
                 <include name="${project-src-dir}/**"/>
                 <include name="${project-vendor-dir}/**/*"/>
                 <include name="${project-web-dir}/**"/>
@@ -338,19 +344,13 @@
     dependencies-install-prod,symfony-regenerate-cache-prod,symfony-doctrine-dump-schema,symfony-assets-install-prod,
     symfony-assetic-dump-prod,package-db-schema,package-version,package-archive" />
 
-    <!-- symfony-doctrine-schema-validate,  insert this to empty line in task under -->
     <target name="build" description="Runs build locally" depends="clean,prepare,check-environment,projectdoc,
-    composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,
-
-    phpmd,php-cs-fixer,phpcs,phpcpd,
+    composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,symfony-doctrine-schema-validate,phpmd,php-cs-fixer,phpcs,phpcpd,
     symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
     symfony-assets-install-prod,symfony-assetic-dump-prod,dependencies-list-updates,dependencies-security-check" />
 
-    <!-- symfony-doctrine-schema-validate,  insert this to empty line in task under -->
-    <target name="build-ci" description="Runs CI build" depends="dependencies-install,clean,prepare,check-environment,projectdoc,
-    composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,
-
-    phpmd,php-cs-fixer,phpcs,phpcpd,
+    <target name="build-ci" description="Runs CI build" depends="copy-configs-ci,dependencies-install,clean,prepare,check-environment,projectdoc,
+    composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,symfony-doctrine-schema-validate,phpmd,php-cs-fixer,phpcs,phpcpd,
     symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
     symfony-assets-install-prod,symfony-assetic-dump-prod,dependencies-list-updates,dependencies-security-check" />
 
