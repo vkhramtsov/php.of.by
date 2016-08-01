@@ -21,6 +21,7 @@ class User extends BaseUser implements Timestampable, UserInterface
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")

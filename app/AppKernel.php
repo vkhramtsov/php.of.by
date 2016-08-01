@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(), // Administration
             new FOS\UserBundle\FOSUserBundle(), // Bundle for use database as users backend
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(), // Doctrine extensions
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),// WYSIWYG editor
 
             //Controller as a service bundle
             new CommonBundle\CommonBundle(),
@@ -30,6 +31,7 @@ class AppKernel extends Kernel
             new PhpOfBy\WebsiteBundle\PhpOfByWebsiteBundle(),
             new PhpOfBy\SecurityBundle\PhpOfBySecurityBundle(),
             new PhpOfBy\AdminBundle\PhpOfByAdminBundle(),
+            new PhpOfBy\ContentBundle\PhpOfByContentBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
