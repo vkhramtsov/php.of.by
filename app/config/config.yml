@@ -137,3 +137,14 @@ easy_admin:
                       - { property: 'plainPassword', type: 'text', label: 'Password', type_options: { required: false }}
                       - 'roles'
                       - 'lastLogin'
+        Article:
+            class: 'PhpOfBy\ContentBundle\Entity\Article'
+            list:
+                fields: ['articleId', 'published', 'title', 'publicationDate', 'createdAt', 'updatedAt']
+            form:
+                fields:
+                    - 'published'
+                    - 'title'
+                    - 'publicationDate'
+                    - { property: 'teaser', type: 'ckeditor' }
+                    - { property: 'body', type: 'ckeditor' }

@@ -1,0 +1,9 @@
+parameters:
+  phpofby_content.service.article.class: PhpOfBy\ContentBundle\Service\ArticleServiceDoctrineOrm
+
+services:
+  phpofby_content.service.article:
+    class: '%phpofby_content.service.article.class%'
+    lazy: true
+    arguments:
+      - '@doctrine'
