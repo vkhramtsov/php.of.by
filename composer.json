@@ -53,7 +53,9 @@
         "javiereguiluz/easyadmin-bundle": "1.*",
         "friendsofsymfony/user-bundle": "dev-master",
         "stof/doctrine-extensions-bundle": "1.2.*",
-        "egeloen/ckeditor-bundle": "4.0.*"
+        "egeloen/ckeditor-bundle": "4.0.*",
+        "pear/pear-core-minimal": "1.*",
+        "pear/archive_tar": "1.4.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -64,7 +66,6 @@
         "sebastian/phpcpd": "2.*",
         "phpunit/phpunit": "5.*",
         "squizlabs/php_codesniffer": "2.*",
-        "pear/pear-core-minimal": "1.*",
         "friendsofphp/php-cs-fixer": "1.*"
     },
     "scripts": {
