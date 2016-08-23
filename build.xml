@@ -3,8 +3,14 @@
 
     <property file="build.properties"/>
     <property name="project-version" value="${env.TRAVIS_TAG}.${env.TRAVIS_BUILD_NUMBER}"/>
+    <property name="project-prod-db-host" value="${env.DEPLOY_DB_HOST}"/>
+    <property name="project-prod-db-name" value="${env.DEPLOY_DB_NAME}"/>
+    <property name="project-prod-db-user" value="${env.DEPLOY_DB_USER}"/>
+    <property name="project-prod-db-password" value="${env.DEPLOY_DB_PASSWORD}"/>
     <property name="project-file-config-version" value="${project-app-config-dir}/config.yml"/>
-    <property name="project.file-config-parameters-ci" value="${project-app-config-dir}/parameters_ci.yml"/>
+    <property name="project-file-config-parameters-ci" value="${project-app-config-dir}/parameters_ci.yml"/>
+    <property name="project-file-config-parameters-prod" value="${project-app-config-dir}/parameters_prod.yml"/>
+    <property name="project-file-config-parameters" value="${project-app-config-dir}/parameters.yml"/>
     <property name="project-app-dir" value="app" />
     <property name="project-app-config-dir" value="${project-app-dir}/config"/>
     <property name="project-app-cache-dir" value="${project-app-dir}/cache" />
@@ -33,6 +39,7 @@
     <property name="project-file-package-version" value="version.txt"/>
     <property name="project-doc-dir" value="doc"/>
     <property name="symfony-bin-console" value="${project-bin-dir}/console"/>
+    <property name="project-var-dir" value="var"/>
 
     <!-- Filesets -->
     <fileset dir="${project-src-dir}" id="src-php">
@@ -45,6 +52,9 @@
         <include name="${project-src-dir}/**"/>
         <include name="${project-vendor-dir}/**/*"/>
         <include name="${project-web-dir}/**"/>
+        <include name="${project-bin-dir}/**"/>
+        <include name="${project-var-dir}/**"/>
+        <include name="${project-doc-dir}/**"/>
         <include name="${project-file-package-version}"/>
         <include name="${project-file-doctrine-database-scheme}"/>
     </fileset>
@@ -278,7 +288,7 @@
             <arg name="dump-sql"/>
             <arg name="no-interaction"/>
         </SymfonyConsole>
-        <echo msg="123" file="${project-doctrine-database-scheme}" append="false"/>
+        <echo msg="${scheme.sql}" file="${project-doctrine-database-scheme}" append="false"/>
     </target>
 
     <target name="package-db-schema" description="Stores DB schema in the package">
@@ -287,32 +297,17 @@
     </target>
 
     <target name="copy-configs-ci" description="Copy configs for CI server">
-        <copy file="${project.file-config-parameters-ci}" tofile="${project-app-config-dir}/parameters.yml"
+        <copy file="${project-file-config-parameters-ci}" tofile="${project-app-config-dir}/parameters.yml"
+              overwrite="true" haltonerror="true"/>
+    </target>
+
+    <target name="copy-configs-prod" description="Copy configs for CI server">
+        <copy file="${project-file-config-parameters-prod}" tofile="${project-app-config-dir}/parameters.yml"
               overwrite="true" haltonerror="true"/>
     </target>
 
     <target name="prepare" description="Create some dirs for build">
         <mkdir dir="${project-build-output-dir}"/>
-    </target>
-
-    <target name="package-archive" description="Create archive ready for deployment">
-        <!-- Workaround for http://www.phing.info/trac/ticket/1066#ticket -->
-        <delete file="${project-file-package}"/>
-        <delete includeemptydirs="true">
-            <fileset refid="symfony-temp"/>
-        </delete>
-        <tar destfile="${project-file-package}" compression="gzip">
-            <fileset dir="${project.basedir}">
-                <include name="${project-app-dir}/**"/>
-                <include name="${project-app-dir}/**"/>
-                <exclude name="${project-app-config-dir}/parameters.yml"/>
-                <include name="${project-src-dir}/**"/>
-                <include name="${project-vendor-dir}/**/*"/>
-                <include name="${project-web-dir}/**"/>
-                <include name="${project-file-package-version}"/>
-                <include name="${project-file-doctrine-database-scheme}"/>
-            </fileset>
-        </tar>
     </target>
 
     <target name="package-version" description="Stores package version in text file">
@@ -336,22 +331,58 @@
         </reflexive>
     </target>
 
-    <target name="build-prod" description="Create code for upload to production" depends="clean,clean-dev-only-files,
-    prepare,file-update-version, composer-validate,dependencies-install-prod,symfony-regenerate-cache-prod,
-    symfony-assets-install-prod,symfony-assetic-dump-prod" />
+    <target name="file-generate-secret" description="Generate random string for symfony secret">
+        <exec escape="false" passthru="true" command="php -r 'echo substr(md5(uniqid()), 0, 30), PHP_EOL;'" returnProperty="randomString" />
+    </target>
 
-    <target name="package" description="Create tar package for deployment" depends="clean,prepare,composer-validate,
-    dependencies-install-prod,symfony-regenerate-cache-prod,symfony-doctrine-dump-schema,symfony-assets-install-prod,
-    symfony-assetic-dump-prod,package-db-schema,package-version,package-archive" />
+    <target name="file-update-deploy-config" description="Set proper data to prod config" depends="file-generate-secret">
+        <reflexive file="${project-file-config-parameters}">
+            <filterchain>
+                <replacetokens begintoken="~" endtoken="~">
+                    <token key="PROJECT_DB_HOST" value="${project-prod-db-host}"/>
+                    <token key="PROJECT_DB_NAME" value="${project-prod-db-name}"/>
+                    <token key="PROJECT_DB_USER" value="${project-prod-db-user}"/>
+                    <token key="PROJECT_DB_PASSWORD" value="${project-prod-db-password}"/>
+                    <token key="PROJECT_SECRET" value="${randomString}"/>
+                </replacetokens>
+            </filterchain>
+        </reflexive>
+    </target>
+
+    <target name="package-prepare-files" description="Prepare package files for archiving">
+        <copy todir="${project-build-dir}" includeemptydirs="true" overwrite="true">
+            <fileset refid="package" />
+        </copy>
+    </target>
+
+    <target name="package-archive" description="Create package for deploy to prod" depends="package-prepare-files">
+        <!--
+            Next three lines is workaround for phing, which wants to include particular tasks for performing this job.
+            Also prepend here works better then append.
+        -->
+        <includepath classpath="${project-vendor-dir}/pear/pear-core-minimal/src" mode="prepend"/>
+        <includepath classpath="${project-vendor-dir}/pear/console_getopt" mode="prepend"/>
+        <includepath classpath="${project-vendor-dir}/pear/archive_tar" mode="prepend"/>
+        <tar destfile="package.tgz" includeemptydirs="true" compression="gzip">
+            <fileset dir="${project.basedir}" >
+                <include name="${project-build-dir}/**" />
+            </fileset>
+        </tar>
+    </target>
+
+    <target name="package" description="Create tar package for deployment" depends="copy-configs-prod,file-update-deploy-config,
+    clean,clean-dev-only-files,prepare,composer-validate,file-update-version,dependencies-install-prod,symfony-regenerate-cache-prod,
+    symfony-doctrine-dump-schema,symfony-assets-install-prod,symfony-assetic-dump-prod,package-db-schema,
+    package-version,package-archive" />
 
     <target name="build" description="Runs build locally" depends="clean,prepare,check-environment,projectdoc,
-    composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,symfony-doctrine-schema-validate,phpmd,php-cs-fixer,phpcs,phpcpd,
-    symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
+    composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,symfony-doctrine-schema-validate,phpmd,php-cs-fixer,phpcs,
+    phpcpd,symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
     symfony-assets-install-prod,symfony-assetic-dump-prod,dependencies-list-updates,dependencies-security-check" />
 
-    <target name="build-ci" description="Runs CI build" depends="copy-configs-ci,dependencies-install,clean,prepare,check-environment,projectdoc,
-    composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,symfony-doctrine-schema-validate,phpmd,php-cs-fixer,phpcs,phpcpd,
-    symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
+    <target name="build-ci" description="Runs CI build" depends="copy-configs-ci,dependencies-install,clean,prepare,check-environment,
+    projectdoc,composer-validate,phplint,symfony-twig-lint,symfony-yaml-lint,symfony-doctrine-schema-validate,phpmd,php-cs-fixer,
+    phpcs,phpcpd,symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
     symfony-assets-install-prod,symfony-assetic-dump-prod,dependencies-list-updates,dependencies-security-check" />
 
 </project>

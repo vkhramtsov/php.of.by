@@ -17,4 +17,5 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
-    google_analytics_id: 'UA-80498525-1'
+    # Prod id is 'UA-80498525-1'
+    google_analytics_id: '111-1'
