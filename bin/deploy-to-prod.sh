@@ -6,5 +6,5 @@ if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ $(phpenv version-name) = "7.0" ];
     ssh-add .travis/deploy.key
     scp package.tgz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_PATH/deploy.sh
-    ssh $DEPLOY_USER@$DEPLOY_HOST php ~/php.of.by/bin/console doctrine:migrations:migrate
+    ssh $DEPLOY_USER@$DEPLOY_HOST php\ ~/php.of.by/bin/console\ doctrine:migrations:migrate
 fi
