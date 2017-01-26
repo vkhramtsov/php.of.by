@@ -21,7 +21,7 @@ script:
 addons:
   ssh_known_hosts: php.of.by
 
-before_deploy: "export SYMFONY_ENV=prod && php phing.phar package && export SYMFONY_ENV="
+before_deploy: "export SYMFONY_ENV=prod && php phing.phar package && unset SYMFONY_ENV"
 
 deploy:
   provider: script
