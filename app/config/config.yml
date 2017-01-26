@@ -121,7 +121,7 @@ easy_admin:
         User:
             class: '%fos_user_bundle_user_class%'
             list:
-                fields: ['username', 'email', 'enabled', 'lastLogin', 'locked', 'createdAt', 'updatedAt']
+                fields: ['username', 'email', 'enabled', 'lastLogin', 'createdAt', 'updatedAt']
             new:
                 fields:
                     - 'enabled'
