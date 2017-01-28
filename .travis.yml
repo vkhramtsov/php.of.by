@@ -14,6 +14,7 @@ before_install:
 
 before_script:
   - if [ "$DB" == "mysql" ]; then mysql -e "create database phpofby DEFAULT CHARACTER SET utf8 ; grant all on phpofby.* to 'symfony'@'localhost' identified by 'symfony';" -uroot; fi
+  - phpenv config-add travis.php.ini
 
 script:
   - php phing.phar build-ci
