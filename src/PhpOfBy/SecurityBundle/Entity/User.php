@@ -94,13 +94,8 @@ class User extends BaseUser implements Timestampable, UserInterface
             $this->salt,
             $this->usernameCanonical,
             $this->username,
-            $this->expired,
-            $this->locked,
-            $this->credentialsExpired,
             $this->enabled,
             $this->userId,
-            $this->expiresAt,
-            $this->credentialsExpireAt,
             $this->email,
             $this->emailCanonical,
         ));
@@ -124,13 +119,8 @@ class User extends BaseUser implements Timestampable, UserInterface
             $this->salt,
             $this->usernameCanonical,
             $this->username,
-            $this->expired,
-            $this->locked,
-            $this->credentialsExpired,
             $this->enabled,
             $this->userId,
-            $this->expiresAt,
-            $this->credentialsExpireAt,
             $this->email,
             $this->emailCanonical
             ) = $data;

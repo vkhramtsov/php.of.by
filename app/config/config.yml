@@ -37,6 +37,8 @@ framework:
     assets:
         # set version of assets to simplify cache flushing
         version: '%assets_version%'
+    php_errors:
+        log: true
 
 # Twig Configuration
 twig:
@@ -121,7 +123,7 @@ easy_admin:
         User:
             class: '%fos_user_bundle_user_class%'
             list:
-                fields: ['username', 'email', 'enabled', 'lastLogin', 'locked', 'createdAt', 'updatedAt']
+                fields: ['username', 'email', 'enabled', 'lastLogin', 'createdAt', 'updatedAt']
             new:
                 fields:
                     - 'enabled'

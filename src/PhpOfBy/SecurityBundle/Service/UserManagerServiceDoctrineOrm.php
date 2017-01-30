@@ -4,31 +4,29 @@ namespace PhpOfBy\SecurityBundle\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use FOS\UserBundle\Doctrine\UserManager;
-use FOS\UserBundle\Util\CanonicalizerInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use FOS\UserBundle\Model\UserInterface;
+use FOS\UserBundle\Util\CanonicalFieldsUpdater;
+use FOS\UserBundle\Util\PasswordUpdaterInterface;
 
 class UserManagerServiceDoctrineOrm extends UserManager implements UserManagerServiceInterface
 {
     /**
      * Constructor.
      *
-     * @param EncoderFactoryInterface $encoderFactory
-     * @param CanonicalizerInterface  $usernameCanonicalizer
-     * @param CanonicalizerInterface  $emailCanonicalizer
-     * @param ObjectManager           $om
-     * @param string                  $class
+     * @param PasswordUpdaterInterface $passwordUpdater
+     * @param CanonicalFieldsUpdater   $canonicalFieldsUpdater
+     * @param ObjectManager            $om
+     * @param string                   $class
      * @SuppressWarnings(PHPMD.LongVariable)
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function __construct(
-        EncoderFactoryInterface $encoderFactory,
-        CanonicalizerInterface $usernameCanonicalizer,
-        CanonicalizerInterface $emailCanonicalizer,
+        PasswordUpdaterInterface $passwordUpdater,
+        CanonicalFieldsUpdater $canonicalFieldsUpdater,
         ObjectManager $om,
         $class
     ) {
-        parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer, $om, $class);
+        parent::__construct($passwordUpdater, $canonicalFieldsUpdater, $om, $class);
     }
 
     /**
