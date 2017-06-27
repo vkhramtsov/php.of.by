@@ -51,7 +51,7 @@
         "owenversteeg/min": "dev-gh-pages#fe73afc9e1a0ae3492ad3af2efeb0f4d47f967cc",
         "doctrine/doctrine-migrations-bundle": "1.*",
         "javiereguiluz/easyadmin-bundle": "1.*",
-        "friendsofsymfony/user-bundle": ">=2.0.0-beta1,<2.1.0",
+        "friendsofsymfony/user-bundle": "2.0.*",
         "stof/doctrine-extensions-bundle": "1.2.*",
         "egeloen/ckeditor-bundle": "4.0.*",
         "pear/pear-core-minimal": "1.*",
