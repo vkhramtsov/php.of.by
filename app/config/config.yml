@@ -1,23 +1,22 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
-# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
     assets_version: v=3
     project_name: php.of.by
-    project_version: "~PROJECT_VERSION~"
+    project_version: '~PROJECT_VERSION~'
     fos_user_bundle_user_class: PhpOfBy\SecurityBundle\Entity\User
 
 framework:
     #esi:             ~
-    translator:      { fallbacks: ["%locale%"] }
-    secret:          "%secret%"
+    translator:      { fallbacks: ['%locale%'] }
+    secret:          '%secret%'
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: '%kernel.project_dir%/app/config/routing.yml'
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
@@ -25,13 +24,12 @@ framework:
     #serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
-    default_locale:  "%locale%"
-    trusted_hosts:   ~
-    trusted_proxies: ~
+    default_locale:  '%locale%'
+    trusted_hosts: ~
     session:
-        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id:  session.handler.native_file
-        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+        save_path:  '%kernel.project_dir%/var/sessions/%kernel.environment%'
     fragments:       ~
     http_method_override: true
     assets:
@@ -42,8 +40,8 @@ framework:
 
 # Twig Configuration
 twig:
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
+    debug:            '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
     globals:
         project_name: '%project_name%'
         project_version: '%project_version%'
@@ -53,22 +51,22 @@ twig:
 doctrine:
     dbal:
         driver:   pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
+        host:     '%database_host%'
+        port:     '%database_port%'
+        dbname:   '%database_name%'
+        user:     '%database_user%'
+        password: '%database_password%'
         charset:  UTF8
         server_version:  5.5 # Don't check connection to database. Usefull while generating package for prod
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
-        #     path:     "%database_path%"
+        #     path:     '%database_path%'
 
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
@@ -76,33 +74,33 @@ doctrine:
 assetic:
     filters:
         lessphp:
-            file: "%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php"
-            apply_to: "\\.less$"
+            file: '%kernel.project_dir%/vendor/oyejorge/less.php/lessc.inc.php'
+            apply_to: '\\.less$'
     assets:
         common_css:
             inputs:
-                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/general.less"
-                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/buttons.less"
-                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/grid.less"
-                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/headings.less"
-                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/icons.less"
-                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/forms.less"
-                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/navbar.less"
-                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/tables.less"
-                - "%kernel.root_dir%/../vendor/owenversteeg/min/less/messages.less"
-                - "@PhpOfByWebsiteBundle/Resources/public/css/common.css"
+                - '%kernel.project_dir%/vendor/owenversteeg/min/less/general.less'
+                - '%kernel.project_dir%/vendor/owenversteeg/min/less/buttons.less'
+                - '%kernel.project_dir%/vendor/owenversteeg/min/less/grid.less'
+                - '%kernel.project_dir%/vendor/owenversteeg/min/less/headings.less'
+                - '%kernel.project_dir%/vendor/owenversteeg/min/less/icons.less'
+                - '%kernel.project_dir%/vendor/owenversteeg/min/less/forms.less'
+                - '%kernel.project_dir%/vendor/owenversteeg/min/less/navbar.less'
+                - '%kernel.project_dir%/vendor/owenversteeg/min/less/tables.less'
+                - '%kernel.project_dir%/vendor/owenversteeg/min/less/messages.less'
+                - '@PhpOfByWebsiteBundle/Resources/public/css/common.css'
             output: css/common.css
         index_css:
             inputs:
-                - "@PhpOfByWebsiteBundle/Resources/public/css/front.css"
+                - '@PhpOfByWebsiteBundle/Resources/public/css/front.css'
             output: css/front.css
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
+    transport: '%mailer_transport%'
+    host:      '%mailer_host%'
+    username:  '%mailer_user%'
+    password:  '%mailer_password%'
     spool:     { type: memory }
 
 # Doctrine extensions configuration
@@ -113,8 +111,8 @@ stof_doctrine_extensions:
 
 fos_user:
     from_email:
-      address: "%mailer_user%"
-      sender_name: "%mailer_user%"
+      address: '%mailer_user%'
+      sender_name: '%mailer_user%'
     db_driver: orm
     firewall_name: webui_secured
     user_class: '%fos_user_bundle_user_class%'
