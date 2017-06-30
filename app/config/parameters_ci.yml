@@ -7,7 +7,7 @@ parameters:
     database_password: symfony
     mailer_transport: smtp
     mailer_host: 127.0.0.1
-    mailer_user: null
+    mailer_user: test_email@change.it
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
     google_analytics_id: 111-1
