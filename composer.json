@@ -41,7 +41,7 @@
         "doctrine/doctrine-migrations-bundle": "1.*",
         "doctrine/orm": "^2.5",
         "easycorp/easyadmin-bundle": "1.*",
-        "egeloen/ckeditor-bundle": "6.0.*",
+        "friendsofsymfony/ckeditor-bundle": "1.*",
         "friendsofsymfony/user-bundle": "2.1.*",
         "incenteev/composer-parameter-handler": "^2.0",
         "owenversteeg/min": "dev-gh-pages#fe73afc9e1a0ae3492ad3af2efeb0f4d47f967cc",

@@ -22,7 +22,7 @@ class AppKernel extends Kernel
             new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(), // Administration
             new FOS\UserBundle\FOSUserBundle(), // Bundle for use database as users backend
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(), // Doctrine extensions
-            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),// WYSIWYG editor
+            new FOS\CKEditorBundle\FOSCKEditorBundle(),// WYSIWYG editor
 
             //Controller as a service bundle
             new CommonBundle\CommonBundle(),
