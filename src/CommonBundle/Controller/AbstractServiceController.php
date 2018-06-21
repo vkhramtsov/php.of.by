@@ -2,14 +2,17 @@
 
 namespace CommonBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -18,165 +21,196 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Here we suppress phpmd warning because we have to use all this objects.
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class AbstractServiceController
 {
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-
-    /** @var CsrfTokenManagerInterface */
-    private $csrfTokenManager;
-
-    /** @var FormFactoryInterface */
-    private $formFactory;
-
-    /**
-     * @var RouterInterface
-     */
+    /** @var RouterInterface */
     private $router;
 
-    /**
-     * @var Session
-     */
+    /** @var SerializerInterface */
+    private $serializer;
+
+    /** @var SessionInterface */
     private $session;
+
+    /** @var AuthorizationCheckerInterface */
+    private $authorizationChecker;
 
     /** @var EngineInterface */
     private $templating;
 
+    /** @var FormFactoryInterface */
+    private $formFactory;
+
     /** @var TokenStorageInterface */
     private $tokenStorage;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     */
-    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker): void
-    {
-        $this->authorizationChecker = $authorizationChecker;
-    }
-
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     */
-    public function setCsrfTokenManager(CsrfTokenManagerInterface $csrfTokenManager): void
-    {
-        $this->csrfTokenManager = $csrfTokenManager;
-    }
-
-    /**
-     * @param FormFactoryInterface $formFactory
-     */
-    public function setFormFactory(FormFactoryInterface $formFactory): void
-    {
-        $this->formFactory = $formFactory;
-    }
-
-    /**
-     * @param RouterInterface $router
-     */
-    public function setRouter(RouterInterface $router): void
-    {
-        $this->router = $router;
-    }
-
-    /**
-     * @param Session $session
-     */
-    public function setSession(Session $session): void
-    {
-        $this->session = $session;
-    }
-
-    /**
-     * @param EngineInterface $templating
-     */
-    public function setTemplating(EngineInterface $templating): void
-    {
-        $this->templating = $templating;
-    }
-
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
-    public function setTokenStorage(TokenStorageInterface $tokenStorage): void
-    {
-        $this->tokenStorage = $tokenStorage;
-    }
-
-    /**
-     * @return AuthorizationCheckerInterface
-     */
-    protected function getAuthorizationChecker()
-    {
-        return $this->authorizationChecker;
-    }
-
-    /**
-     * @return CsrfTokenManagerInterface
-     */
-    protected function getCsrfTokenManager()
-    {
-        return $this->csrfTokenManager;
-    }
-
-    /**
-     * @return FormFactoryInterface
-     */
-    protected function getFormFactory()
-    {
-        return $this->formFactory;
-    }
+    /** @var CsrfTokenManagerInterface */
+    private $csrfTokenManager;
 
     /**
      * @return RouterInterface
      */
-    protected function getRouter()
+    protected function getRouter(): RouterInterface
     {
         return $this->router;
     }
 
     /**
-     * @return Session
+     * @param RouterInterface $router
+     * @return AbstractServiceController
      */
-    protected function getSession()
+    public function setRouter(RouterInterface $router): AbstractServiceController
+    {
+        $this->router = $router;
+        return $this;
+    }
+
+    /**
+     * @return SerializerInterface
+     */
+    protected function getSerializer(): SerializerInterface
+    {
+        return $this->serializer;
+    }
+
+    /**
+     * @param SerializerInterface $serializer
+     * @return AbstractServiceController
+     */
+    public function setSerializer(SerializerInterface $serializer): AbstractServiceController
+    {
+        $this->serializer = $serializer;
+        return $this;
+    }
+
+    /**
+     * @return SessionInterface
+     */
+    protected function getSession(): SessionInterface
     {
         return $this->session;
     }
 
     /**
+     * @param SessionInterface $session
+     * @return AbstractServiceController
+     */
+    public function setSession(SessionInterface $session): AbstractServiceController
+    {
+        $this->session = $session;
+        return $this;
+    }
+
+    /**
+     * @return AuthorizationCheckerInterface
+     */
+    protected function getAuthorizationChecker(): AuthorizationCheckerInterface
+    {
+        return $this->authorizationChecker;
+    }
+
+    /**
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @return AbstractServiceController
+     */
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker): AbstractServiceController
+    {
+        $this->authorizationChecker = $authorizationChecker;
+        return $this;
+    }
+
+    /**
      * @return EngineInterface
      */
-    protected function getTemplating()
+    protected function getTemplating(): EngineInterface
     {
         return $this->templating;
     }
 
     /**
+     * @param EngineInterface $templating
+     * @return AbstractServiceController
+     */
+    public function setTemplating(EngineInterface $templating): AbstractServiceController
+    {
+        $this->templating = $templating;
+        return $this;
+    }
+
+    /**
+     * @return FormFactoryInterface
+     */
+    protected function getFormFactory(): FormFactoryInterface
+    {
+        return $this->formFactory;
+    }
+
+    /**
+     * @param FormFactoryInterface $formFactory
+     * @return AbstractServiceController
+     */
+    public function setFormFactory(FormFactoryInterface $formFactory): AbstractServiceController
+    {
+        $this->formFactory = $formFactory;
+        return $this;
+    }
+
+    /**
      * @return TokenStorageInterface
      */
-    protected function getTokenStorage()
+    protected function getTokenStorage(): TokenStorageInterface
     {
         return $this->tokenStorage;
     }
 
     /**
+     * @param TokenStorageInterface $tokenStorage
+     * @return AbstractServiceController
+     */
+    public function setTokenStorage(TokenStorageInterface $tokenStorage): AbstractServiceController
+    {
+        $this->tokenStorage = $tokenStorage;
+        return $this;
+    }
+
+    /**
+     * @return CsrfTokenManagerInterface
+     */
+    protected function getCsrfTokenManager(): CsrfTokenManagerInterface
+    {
+        return $this->csrfTokenManager;
+    }
+
+    /**
+     * @param CsrfTokenManagerInterface $csrfTokenManager
+     * @return AbstractServiceController
+     */
+    public function setCsrfTokenManager(CsrfTokenManagerInterface $csrfTokenManager): AbstractServiceController
+    {
+        $this->csrfTokenManager = $csrfTokenManager;
+        return $this;
+    }
+
+    /**
      * Generates a URL from the given parameters.
      *
-     * @param string $route         The name of the route
-     * @param mixed  $parameters    An array of parameters
-     * @param int    $referenceType The type of reference (one of the constants in UrlGeneratorInterface)
-     *
-     * @return string The generated URL
-     *
      * @see UrlGeneratorInterface
+     *
+     * @final
+     * @param string $route
+     * @param array $parameters
+     * @param int $referenceType
+     * @return string
      */
-    protected function generateUrl($route, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    protected function generateUrl(string $route, array $parameters = array(), int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         return $this->getRouter()->generate($route, $parameters, $referenceType);
     }
@@ -184,12 +218,12 @@ abstract class AbstractServiceController
     /**
      * Returns a RedirectResponse to the given URL.
      *
-     * @param string $url    The URL to redirect to
-     * @param int    $status The status code to use for the Response
-     *
+     * @final
+     * @param string $url
+     * @param int $status
      * @return RedirectResponse
      */
-    protected function redirect($url, $status = 302)
+    protected function redirect(string $url, int $status = 302): RedirectResponse
     {
         return new RedirectResponse($url, $status);
     }
@@ -197,79 +231,114 @@ abstract class AbstractServiceController
     /**
      * Returns a RedirectResponse to the given route with the given parameters.
      *
-     * @param string $route      The name of the route
-     * @param array  $parameters An array of parameters
-     * @param int    $status     The status code to use for the Response
-     *
+     * @final
+     * @param string $route
+     * @param array $parameters
+     * @param int $status
      * @return RedirectResponse
      */
-    protected function redirectToRoute($route, array $parameters = [], $status = 302)
+    protected function redirectToRoute(string $route, array $parameters = array(), int $status = 302): RedirectResponse
     {
         return $this->redirect($this->generateUrl($route, $parameters), $status);
     }
 
     /**
+     * Returns a JsonResponse that uses the serializer component if enabled, or json_encode.
+     *
+     * @final
+     * @param mixed $data
+     * @param  int $status
+     * @param array $headers
+     * @param array $context
+     * @return JsonResponse
+     */
+    protected function json($data, int $status = 200, array $headers = array(), array $context = array()): JsonResponse
+    {
+        $json = $this->getSerializer()->serialize($data, 'json', array_merge(array(
+            'json_encode_options' => JsonResponse::DEFAULT_ENCODING_OPTIONS,
+        ), $context));
+
+        return new JsonResponse($json, $status, $headers, true);
+    }
+
+    /**
+     * Returns a BinaryFileResponse object with original or customized file name and disposition header.
+     *
+     *
+     * @final
+     * @param \SplFileInfo|string $file File object or path to file to be sent as response
+     * @param string $fileName,
+     * @param string $disposition
+     * @return BinaryFileResponse
+     */
+    protected function file($file, string $fileName = null, string $disposition = ResponseHeaderBag::DISPOSITION_ATTACHMENT): BinaryFileResponse
+    {
+        $response = new BinaryFileResponse($file);
+        $response->setContentDisposition($disposition, null === $fileName ? $response->getFile()->getFilename() : $fileName);
+
+        return $response;
+    }
+
+    /**
      * Adds a flash message to the current session for type.
      *
-     * @param string $type    The type
-     * @param string $message The message
-     *
      * @throws \LogicException
+     *
+     * @final
+     * @param string $type
+     * @param string $message
      */
-    protected function addFlash($type, $message): void
+    protected function addFlash(string $type, string $message)
     {
-        if (!$this->getSession() instanceof Session) {
-            throw new \LogicException('You can not use the addFlash method if sessions are disabled.');
-        }
-
         $this->getSession()->getFlashBag()->add($type, $message);
     }
 
     /**
-     * Checks if the attributes are granted against the current authentication token and optionally supplied object.
-     *
-     * @param mixed $attributes The attributes
-     * @param mixed $object     The object
+     * Checks if the attributes are granted against the current authentication token and optionally supplied subject.
      *
      * @throws \LogicException
      *
+     * @final
+     * @param mixed $attributes
+     * @param mixed $subject
      * @return bool
      */
-    protected function isGranted($attributes, $object = null)
+    protected function isGranted($attributes, $subject = null): bool
     {
-        if (!$this->getAuthorizationChecker() instanceof AuthorizationCheckerInterface) {
-            throw new \LogicException('The SecurityBundle is not registered in your application.');
-        }
-
-        return $this->getAuthorizationChecker()->isGranted($attributes, $object);
+        return $this->getAuthorizationChecker()->isGranted($attributes, $subject);
     }
 
     /**
      * Throws an exception unless the attributes are granted against the current authentication token and optionally
-     * supplied object.
-     *
-     * @param mixed  $attributes The attributes
-     * @param mixed  $object     The object
-     * @param string $message    The message passed to the exception
+     * supplied subject.
      *
      * @throws AccessDeniedException
+     *
+     * @final
+     * @param mixed $attributes
+     * @param mixed $subject
+     * @param string $message
      */
-    protected function denyAccessUnlessGranted($attributes, $object = null, $message = 'Access Denied.'): void
+    protected function denyAccessUnlessGranted($attributes, $subject = null, string $message = 'Access Denied.')
     {
-        if (!$this->isGranted($attributes, $object)) {
-            throw $this->createAccessDeniedException($message);
+        if (!$this->isGranted($attributes, $subject)) {
+            $exception = $this->createAccessDeniedException($message);
+            $exception->setAttributes($attributes);
+            $exception->setSubject($subject);
+
+            throw $exception;
         }
     }
 
     /**
      * Returns a rendered view.
      *
-     * @param string $view       The view name
-     * @param array  $parameters An array of parameters to pass to the view
-     *
-     * @return string The rendered view
+     * @final
+     * @param string $view
+     * @param array $parameters
+     * @return string
      */
-    protected function renderView($view, array $parameters = [])
+    protected function renderView(string $view, array $parameters = array()): string
     {
         return $this->getTemplating()->render($view, $parameters);
     }
@@ -277,15 +346,50 @@ abstract class AbstractServiceController
     /**
      * Renders a view.
      *
-     * @param string   $view       The view name
-     * @param array    $parameters An array of parameters to pass to the view
-     * @param Response $response   A response instance
-     *
-     * @return Response A Response instance
+     * @final
+     * @param string $view
+     * @param array $parameters
+     * @param Response $response
+     * @return Response
      */
-    protected function render($view, array $parameters = [], Response $response = null)
+    protected function render(string $view, array $parameters = array(), Response $response = null): Response
     {
-        return $this->getTemplating()->renderResponse($view, $parameters, $response);
+        $content = $this->getTemplating()->render($view, $parameters);
+
+        if (null === $response) {
+            $response = new Response();
+        }
+
+        $response->setContent($content);
+
+        return $response;
+    }
+
+    /**
+     * Streams a view.
+     *
+     * @final
+     *
+     * @param string $view
+     * @param array $parameters
+     * @param StreamedResponse $response
+     * @return StreamedResponse
+     */
+    protected function stream(string $view, array $parameters = array(), StreamedResponse $response = null): StreamedResponse
+    {
+        $templating = $this->getTemplating();
+
+        $callback = function () use ($templating, $view, $parameters) {
+            $templating->stream($view, $parameters);
+        };
+
+        if (null === $response) {
+            return new StreamedResponse($callback);
+        }
+
+        $response->setCallback($callback);
+
+        return $response;
     }
 
     /**
@@ -295,12 +399,12 @@ abstract class AbstractServiceController
      *
      *     throw $this->createNotFoundException('Page not found!');
      *
-     * @param string          $message  A message
-     * @param \Exception|null $previous The previous exception
-     *
+     * @final
+     * @param string $message
+     * @param \Exception $previous
      * @return NotFoundHttpException
      */
-    protected function createNotFoundException($message = 'Not Found', \Exception $previous = null)
+    protected function createNotFoundException(string $message = 'Not Found', \Exception $previous = null): NotFoundHttpException
     {
         return new NotFoundHttpException($message, $previous);
     }
@@ -312,26 +416,32 @@ abstract class AbstractServiceController
      *
      *     throw $this->createAccessDeniedException('Unable to access this page!');
      *
-     * @param string          $message  A message
-     * @param \Exception|null $previous The previous exception
+     * @throws \LogicException If the Security component is not available
      *
+     * @final
+     * @param string $message
+     * @param \Exception $previous
      * @return AccessDeniedException
      */
-    protected function createAccessDeniedException($message = 'Access Denied.', \Exception $previous = null)
+    protected function createAccessDeniedException(string $message = 'Access Denied.', \Exception $previous = null): AccessDeniedException
     {
+        if (!class_exists(AccessDeniedException::class)) {
+            throw new \LogicException('You can not use the "createAccessDeniedException" method if the Security component is not available. Try running "composer require symfony/security-bundle".');
+        }
+
         return new AccessDeniedException($message, $previous);
     }
 
     /**
      * Creates and returns a Form instance from the type of the form.
      *
-     * @param string $type    The fully qualified class name of the form type
-     * @param mixed  $data    The initial data for the form
-     * @param array  $options Options for the form
-     *
+     * @final
+     * @param string $type
+     * @param $data
+     * @param array $options
      * @return FormInterface
      */
-    protected function createForm($type, $data = null, array $options = [])
+    protected function createForm(string $type, $data = null, array $options = array()): FormInterface
     {
         return $this->getFormFactory()->create($type, $data, $options);
     }
@@ -339,12 +449,12 @@ abstract class AbstractServiceController
     /**
      * Creates and returns a form builder instance.
      *
-     * @param mixed $data    The initial data for the form
-     * @param array $options Options for the form
-     *
+     * @final
+     * @param $data
+     * @param array $options
      * @return FormBuilderInterface
      */
-    protected function createFormBuilder($data = null, array $options = [])
+    protected function createFormBuilder($data = null, array $options = array()): FormBuilderInterface
     {
         return $this->getFormFactory()->createBuilder(FormType::class, $data, $options);
     }
@@ -352,18 +462,16 @@ abstract class AbstractServiceController
     /**
      * Get a user from the Security Token Storage.
      *
-     * @throws \LogicException If SecurityBundle is not available
-     *
      * @return mixed
      *
+     * @throws \LogicException If SecurityBundle is not available
+     *
      * @see TokenInterface::getUser()
+     *
+     * @final
      */
     protected function getUser()
     {
-        if (!$this->getTokenStorage() instanceof TokenStorageInterface) {
-            throw new \LogicException('The SecurityBundle is not registered in your application.');
-        }
-
         if (null === $token = $this->getTokenStorage()->getToken()) {
             return;
         }
@@ -379,17 +487,13 @@ abstract class AbstractServiceController
     /**
      * Checks the validity of a CSRF token.
      *
-     * @param string $tokenId The id used when generating the token
-     * @param string $token   The actual token sent with the request that should be validated
-     *
+     * @param string      $id    The id used when generating the token
+     * @param string|null $token The actual token sent with the request that should be validated
      * @return bool
+     * @final
      */
-    protected function isCsrfTokenValid($tokenId, $token)
+    protected function isCsrfTokenValid(string $id, ?string $token): bool
     {
-        if (!$this->getCsrfTokenManager() instanceof CsrfTokenManagerInterface) {
-            throw new \LogicException('CSRF protection is not enabled in your application.');
-        }
-
-        return $this->getCsrfTokenManager()->isTokenValid(new CsrfToken($tokenId, $token));
+        return $this->getCsrfTokenManager()->isTokenValid(new CsrfToken($id, $token));
     }
 }

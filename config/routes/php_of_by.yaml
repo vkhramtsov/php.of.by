@@ -1,0 +1,3 @@
+php_of_by_website:
+    resource: '@PhpOfByWebsiteBundle/Resources/config/routing.yaml'
+    prefix: /

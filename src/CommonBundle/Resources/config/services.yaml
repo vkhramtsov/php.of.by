@@ -1,0 +1,12 @@
+services:
+  common.contoller.abstract:
+    abstract: true
+    calls:
+      - [ setRouter, [ '@router' ] ]
+      - [ setSerializer, [ '@serializer' ] ]
+      - [ setSession, [ '@session' ] ]
+      - [ setAuthorizationChecker, [ '@security.authorization_checker' ] ]
+      - [ setTemplating, [ '@templating' ] ]
+      - [ setFormFactory, [ '@form.factory' ] ]
+      - [ setTokenStorage, [ '@security.token_storage' ] ]
+      - [ setCsrfTokenManager, [ '@security.csrf.token_manager' ] ]
