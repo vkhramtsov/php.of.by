@@ -21,7 +21,7 @@ Log in as newly created user
 
 Install common packages
 ~~~~~~~~~~~~~~~~~~~~~~~
-``sudo apt-get install -y git openjdk-8-jre bash-completion mc python-docutils lsb-release``
+``sudo apt-get install -y git bash-completion mc python-docutils lsb-release curl``
 
 
 Install web server
@@ -65,6 +65,21 @@ Install required php modules ``sudo apt-get update && sudo apt-get install -y ph
 Open php fpm config file ``sudo mcedit /etc/php/7.1/fpm/pool.d/www.conf``, find ``listen = /run/php/php7.1-fpm.sock`` and replace with ``listen = 127.0.0.1:9000``.
 
 Restart ``php-fpm`` using command ``sudo service php7.1-fpm restart``.
+
+
+Install node.js and Yarn
+~~~~~~~~~~~~~~~~~~~~~~~~
+Here we are using version 10 of Node.js.
+We need to add repo via ``curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -``. After that install node via ``sudo apt-get install -y nodejs``.
+
+Install Yarn:
+
+    ::
+
+      curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+      echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+      sudo apt-get update && sudo apt-get install yarn
+
 
 Samba
 ~~~~~

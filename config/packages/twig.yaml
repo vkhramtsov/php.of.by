@@ -2,3 +2,7 @@ twig:
     paths: ['%kernel.project_dir%/templates']
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        project_name: '%project_name%'
+        project_version: '%project_version%'
+        google_analytics_id: '%env(resolve:GOOGLE_ANALYTICS_ID)%'

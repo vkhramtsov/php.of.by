@@ -1,13 +1,14 @@
 /.buildpath
 /app/config/parameters.yml
 /build/
-/doc/*.html
-/doc/*/*.html
+/Resources/doc/*.html
+/Resources/doc/*/*.html
 /.idea/
 /*.apache
 /*.nginx
-/web/css/*
-/web/js/*
+/public/css/*
+/public/js/*
+/public/manifest.json
 
 ###> symfony/framework-bundle ###
 /.env
@@ -22,7 +23,6 @@
 
 ###> symfony/webpack-encore-pack ###
 /node_modules/
-/public/build/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-pack ###
