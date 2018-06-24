@@ -1,6 +1,6 @@
 security:
     encoders:
-        FOS\UserBundle\Model\UserInterface: bcrypt
+        PhpOfBy\SecurityBundle\Entity\User: bcrypt
 
     role_hierarchy:
         ROLE_SUPER_ADMIN:

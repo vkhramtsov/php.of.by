@@ -7,18 +7,15 @@
     <property name="project-prod-db-name" value="${env.DEPLOY_DB_NAME}"/>
     <property name="project-prod-db-user" value="${env.DEPLOY_DB_USER}"/>
     <property name="project-prod-db-password" value="${env.DEPLOY_DB_PASSWORD}"/>
-    <property name="project-file-config-version" value="${project-app-config-dir}/config.yml"/>
-    <property name="project-file-config-parameters-ci" value="${project-app-config-dir}/parameters_ci.yml"/>
-    <property name="project-file-config-parameters-prod" value="${project-app-config-dir}/parameters_prod.yml"/>
-    <property name="project-file-config-parameters" value="${project-app-config-dir}/parameters.yml"/>
-    <property name="project-app-dir" value="app" />
-    <property name="project-app-config-dir" value="${project-app-dir}/config"/>
-    <property name="project-app-cache-dir" value="${project-app-dir}/cache" />
-    <property name="project-app-logs-dir" value="${project-app-dir}/logs" />
-    <property name="project-app-resources-dir" value="${project-app-dir}/Resources" />
-    <property name="project-app-resources-configs-dir" value="${project-app-resources-dir}/configs"/>
-    <property name="project-app-resources-configs-phpmd-dir" value="${project-app-resources-configs-dir}/phpmd"/>
-    <property name="project-file-config-phpmd" value="${project-app-resources-configs-phpmd-dir}/phpmd.xml"/>
+    <property name="project-config-dir" value="config" />
+    <property name="project-file-config-version" value="${project-config-dir}/services.yaml"/>
+    <property name="project-file-config-ci" value=".env.dist_ci"/>
+    <property name="project-file-config-prod" value=".env.dist_prod"/>
+    <property name="project-file-config" value=".env"/>
+    <property name="project-resources-dir" value="Resources" />
+    <property name="project-resources-configs-dir" value="${project-resources-dir}/configs"/>
+    <property name="project-resources-configs-phpmd-dir" value="${project-resources-configs-dir}/phpmd"/>
+    <property name="project-file-config-phpmd" value="${project-resources-configs-phpmd-dir}/phpmd.xml"/>
     <property name="project-bin-dir" value="bin" />
     <property name="project-vendor-dir" value="vendor" />
     <property name="project-vendor-bin-dir" value="vendor/bin" />
@@ -27,19 +24,23 @@
     <property name="php-bin" value="php" />
     <property name="project-composer-phar" value="composer.phar" />
     <property name="php-cs-fixer-bin" value="${project-vendor-bin-dir}/php-cs-fixer" />
-    <property name="project-web-dir" value="web"/>
-    <property name="project-web-bundles-dir" value="${project-web-dir}/bundles"/>
-    <property name="project-web-css-dir" value="${project-web-dir}/css"/>
-    <property name="project-web-js-dir" value="${project-web-dir}/js"/>
+    <property name="project-public-dir" value="web"/>
+    <property name="project-public-bundles-dir" value="${project-public-dir}/bundles"/>
+    <property name="project-public-css-dir" value="${project-public-dir}/css"/>
+    <property name="project-public-js-dir" value="${project-public-dir}/js"/>
     <property name="project-build-dir" value="build"/>
     <property name="project-build-output-dir" value="${project-build-dir}/output"/>
     <property name="project-file-doctrine-database-scheme" value="db-scheme.sql"/>
     <property name="project-doctrine-database-scheme" value="${project-build-output-dir}/${project-file-doctrine-database-scheme}"/>
     <property name="project-file-package" value="${project-build-output-dir}/${phing.project.name}-${project-version}.tar.gz"/>
     <property name="project-file-package-version" value="version.txt"/>
-    <property name="project-doc-dir" value="doc"/>
+    <property name="project-resources-doc-dir" value="${project-resources-dir}/doc"/>
     <property name="symfony-bin-console" value="${project-bin-dir}/console"/>
     <property name="project-var-dir" value="var"/>
+    <property name="project-var-cache-dir" value="${project-var-dir}/cache" />
+    <property name="project-var-log-dir" value="${project-var-dir}/log" />
+    <property name="node-modules-dir" value="node_modules" />
+    <property name="project-bin-console" value="${project-bin-dir}/console" />
 
     <!-- Filesets -->
     <fileset dir="${project-src-dir}" id="src-php">
@@ -47,31 +48,28 @@
     </fileset>
 
     <fileset dir="${project.basedir}" id="package">
-        <include name="${project-app-dir}/**"/>
-        <exclude name="${project-app-config-dir}/parameters.yml"/>
+        <include name="${project-config-dir}/**"/>
         <include name="${project-src-dir}/**"/>
         <include name="${project-vendor-dir}/**/*"/>
-        <include name="${project-web-dir}/**"/>
+        <include name="${project-public-dir}/**"/>
         <include name="${project-bin-dir}/**"/>
         <include name="${project-var-dir}/**"/>
-        <include name="${project-doc-dir}/**"/>
+        <include name="${project-resources-doc-dir}/**"/>
         <include name="${project-file-package-version}"/>
         <include name="${project-file-doctrine-database-scheme}"/>
     </fileset>
 
     <fileset dir="${project.basedir}" id="symfony-temp">
-        <include name="${project-app-cache-dir}/**"/>
-        <exclude name="${project-app-cache-dir}/.gitkeep"/>
-        <include name="${project-app-logs-dir}/*"/>
-        <exclude name="${project-app-logs-dir}/.gitkeep"/>
+        <include name="${project-var-cache-dir}/**"/>
+        <include name="${project-var-log-dir}/**"/>
     </fileset>
 
     <fileset dir="${project.basedir}" id="symfony-dev-only-files">
-        <include name="${project-web-dir}/app_dev.php"/>
-        <include name="${project-web-dir}/config.php"/>
+        <include name="${project-public-dir}/app_dev.php"/>
+        <include name="${project-public-dir}/config.php"/>
     </fileset>
 
-    <fileset dir="${project-doc-dir}" id="doc-rst">
+    <fileset dir="${project-resources-doc-dir}" id="doc-rst">
         <include name="**/*.rst"/>
     </fileset>
 
@@ -92,12 +90,13 @@
     </target>
 
     <target name="check-environment" description="Check that environment is suitable for symfony">
-        <exec command="${php-bin} ${project-bin-dir}/symfony_requirements" checkReturn="true" logoutput="true" />
+        <exec command="${php-bin} ${project-vendor-bin-dir}/requirements-checker" checkReturn="true" logoutput="true" />
     </target>
 
-    <target name="dependencies-install" description="Install all dependencies using composer">
+    <target name="dependencies-install" description="Install all dependencies using composer" depends="make-console-executable">
         <delete dir="${project-vendor-dir}" />
-        <delete dir="${project-build-output-dir}"/>
+        <delete dir="${project-build-output-dir}" />
+        <delete dir="${node-modules-dir}" />
         <delete includeemptydirs="true">
             <fileset refid="symfony-temp"/>
         </delete>
@@ -107,10 +106,12 @@
         <SymfonyConsole command="ckeditor:install" checkReturn="true" console="${symfony-bin-console}" >
             <arg value="-nq" />
         </SymfonyConsole>
+        <exec command="${project.yarn-bin} install" />
     </target>
 
-    <target name="dependencies-install-prod" description="Install only prod dependencies using composer">
+    <target name="dependencies-install-prod" description="Install only prod dependencies using composer" depends="make-console-executable">
         <delete dir="${project-vendor-dir}" />
+        <delete dir="${node-modules-dir}" />
         <composer composer="${project-composer-phar}" command="install">
             <arg value="--optimize-autoloader" />
             <arg value="--no-dev" />
@@ -118,6 +119,7 @@
         <SymfonyConsole command="ckeditor:install" checkReturn="true" console="${symfony-bin-console}" >
             <arg value="-nq" />
         </SymfonyConsole>
+        <exec command="${project.yarn-bin} install" />
     </target>
 
     <target name="dependencies-list-updates" description="Check updates for all dependencies">
@@ -135,9 +137,9 @@
     </target>
 
     <target name="clean" description="Clean build artifacts">
-        <delete dir="${project-web-bundles-dir}"/>
-        <delete dir="${project-web-css-dir}"/>
-        <delete dir="${project-web-js-dir}"/>
+        <delete dir="${project-public-bundles-dir}"/>
+        <delete dir="${project-public-css-dir}"/>
+        <delete dir="${project-public-js-dir}"/>
         <delete dir="${project-build-output-dir}"/>
         <delete includeemptydirs="true">
             <fileset refid="symfony-temp"/>
@@ -176,6 +178,10 @@
         <phplint  haltonfailure="true" deprecatedAsError="true">
             <fileset refid="src-php"/>
         </phplint>
+    </target>
+
+    <target name="make-console-executable" description="Make symfony console script executable">
+        <chmod file="${project-bin-console}" mode="770" />
     </target>
 
     <target name="php-cs-fixer" description="Fixes most issues in code as defined in the PSR-1 and PSR-2 documents">
@@ -224,19 +230,26 @@
         </SymfonyConsole>
     </target>
 
-    <target name="symfony-assetic-dump-dev" description="Dumps all assets to the filesystem for dev environment">
-        <SymfonyConsole command="assetic:dump" checkReturn="true" console="${symfony-bin-console}">
-            <arg name="env" value="dev" />
-            <arg value="--no-interaction" />
-        </SymfonyConsole>
+    <target name="encore-build-assets-dev" description="Dumps all assets to the filesystem for dev environment">
+        <exec command="${project.yarn-bin} run encore dev" dir="." checkreturn="false" outputProperty="encore-dev-results" returnProperty="encore-dev-return" />
+        <echo message="${encore-dev-results}" />
+        <if>
+            <istrue value="${encore-dev-return}" />
+            <then>
+                <fail /> <!-- Fail build in case of errors -->
+            </then>
+        </if>
     </target>
 
-    <target name="symfony-assetic-dump-prod" description="Dumps all assets to the filesystem for prod environment">
-        <SymfonyConsole command="assetic:dump" checkReturn="true" console="${symfony-bin-console}">
-            <arg name="env" value="prod" />
-            <arg value="--no-debug" />
-            <arg value="--no-interaction" />
-        </SymfonyConsole>
+    <target name="encore-build-assets-prod" description="Dumps all assets to the filesystem for prod environment">
+        <exec command="${project.yarn-bin} run encore production" dir="." checkreturn="false" outputProperty="encore-prod-results" returnProperty="encore-prod-return" />
+        <echo message="${encore-prod-results}" />
+        <if>
+            <istrue value="${encore-prod-return}" />
+            <then>
+                <fail /> <!-- Fail build in case of errors -->
+            </then>
+        </if>
     </target>
 
     <target name="symfony-doctrine-migrations-migrate" description="Executes migrations">
@@ -295,12 +308,12 @@
     </target>
 
     <target name="copy-configs-ci" description="Copy configs for CI server">
-        <copy file="${project-file-config-parameters-ci}" tofile="${project-app-config-dir}/parameters.yml"
+        <copy file="${project-file-config-ci}" tofile="${project-file-config}"
               overwrite="true" haltonerror="true"/>
     </target>
 
     <target name="copy-configs-prod" description="Copy configs for CI server">
-        <copy file="${project-file-config-parameters-prod}" tofile="${project-app-config-dir}/parameters.yml"
+        <copy file="${project-file-config-prod}" tofile="${project-file-config}"
               overwrite="true" haltonerror="true"/>
     </target>
 
@@ -334,7 +347,7 @@
     </target>
 
     <target name="file-update-deploy-config" description="Set proper data to prod config" depends="file-generate-secret">
-        <reflexive file="${project-file-config-parameters}">
+        <reflexive file="${project-file-config}">
             <filterchain>
                 <replacetokens begintoken="~" endtoken="~">
                     <token key="PROJECT_DB_HOST" value="${project-prod-db-host}"/>
@@ -381,17 +394,17 @@
 
     <target name="package" description="Create tar package for deployment" depends="copy-configs-prod,file-update-deploy-config,
     clean,clean-dev-only-files,prepare,composer-validate,file-update-version,dependencies-install-prod,symfony-regenerate-cache-prod,
-    symfony-doctrine-dump-schema,symfony-assets-install-prod,symfony-assetic-dump-prod,package-db-schema,
+    symfony-doctrine-dump-schema,symfony-assets-install-prod,encore-build-assets-prod,package-db-schema,
     package-version,package-archive" />
 
     <target name="build" description="Runs build locally" depends="clean,prepare,check-environment,projectdoc,
     composer-validate,phplint, psalm, symfony-twig-lint,symfony-yaml-lint,symfony-doctrine-schema-validate,phpmd,php-cs-fixer,phpcs,
-    phpcpd,symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
-    symfony-assets-install-prod,symfony-assetic-dump-prod,dependencies-list-updates,dependencies-security-check" />
+    phpcpd,symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,encore-build-assets-dev,
+    symfony-assets-install-prod,encore-build-assets-prod,dependencies-list-updates,dependencies-security-check" />
 
     <target name="build-ci" description="Runs CI build" depends="copy-configs-ci,dependencies-install,clean,prepare,check-environment,
     projectdoc,composer-validate,phplint, psalm, symfony-twig-lint,symfony-yaml-lint,symfony-doctrine-schema-validate,phpmd,php-cs-fixer,
-    phpcs,phpcpd,symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,symfony-assetic-dump-dev,
-    symfony-assets-install-prod,symfony-assetic-dump-prod,dependencies-list-updates,dependencies-security-check" />
+    phpcs,phpcpd,symfony-regenerate-cache-dev,symfony-regenerate-cache-prod,symfony-assets-install-dev,encore-build-assets-dev,
+    symfony-assets-install-prod,encore-build-assets-prod,dependencies-list-updates,dependencies-security-check" />
 
 </project>

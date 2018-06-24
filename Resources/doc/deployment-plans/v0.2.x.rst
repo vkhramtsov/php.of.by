@@ -1,0 +1,22 @@
+Upgrade plan for version 0.2.x
+------------------------------
+Before Upgrade
+==============
+
+
+During Upgrade
+==============
+#. Change web server document root to ``public`` directory
+
+
+After Upgrade
+=============
+
+
+Before Rollback
+===============
+#. Change web server document root to ``web`` directory
+
+After Rollback
+==============
+
