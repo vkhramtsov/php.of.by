@@ -57,6 +57,7 @@
         <include name="${project-resources-doc-dir}/**"/>
         <include name="${project-file-package-version}"/>
         <include name="${project-file-doctrine-database-scheme}"/>
+        <include name="${project-file-config}" />
     </fileset>
 
     <fileset dir="${project.basedir}" id="symfony-temp">
@@ -65,8 +66,6 @@
     </fileset>
 
     <fileset dir="${project.basedir}" id="symfony-dev-only-files">
-        <include name="yarn.lock"/>
-        <include name="webpack.config.js"/>
         <include name="${project-config-dir}/routes/dev/**"/>
         <include name="${project-config-dir}/packages/dev/**"/>
         <include name="${project-config-dir}/packages/test/**"/>
@@ -346,7 +345,7 @@
     </target>
 
     <target name="file-generate-secret" description="Generate random string for symfony secret">
-        <exec escape="false" passthru="true" command="php -r 'echo substr(md5(uniqid()), 0, 30), PHP_EOL;'" returnProperty="randomString" />
+        <exec escape="false" command="php -r 'echo substr(md5(uniqid()), 0, 30), PHP_EOL;'" outputProperty="randomString" />
     </target>
 
     <target name="file-update-deploy-config" description="Set proper data to prod config" depends="file-generate-secret">
@@ -396,8 +395,8 @@
     </target>
 
     <target name="package" description="Create tar package for deployment" depends="copy-configs-prod,file-update-deploy-config,
-    clean,clean-dev-only-files,prepare,composer-validate,file-update-version,dependencies-install-prod,symfony-regenerate-cache-prod,
-    symfony-doctrine-dump-schema,symfony-assets-install-prod,encore-build-assets-prod,package-db-schema,
+    clean,prepare,composer-validate,file-update-version,dependencies-install-prod,symfony-regenerate-cache-prod,
+    symfony-doctrine-dump-schema,symfony-assets-install-prod,encore-build-assets-prod,clean-dev-only-files,package-db-schema,
     package-version,package-archive" />
 
     <target name="build" description="Runs build locally" depends="clean,prepare,check-environment,projectdoc,
