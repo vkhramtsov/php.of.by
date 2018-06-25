@@ -65,8 +65,11 @@
     </fileset>
 
     <fileset dir="${project.basedir}" id="symfony-dev-only-files">
-        <include name="${project-public-dir}/app_dev.php"/>
-        <include name="${project-public-dir}/config.php"/>
+        <include name="yarn.lock"/>
+        <include name="webpack.config.js"/>
+        <include name="${project-config-dir}/routes/dev/**"/>
+        <include name="${project-config-dir}/packages/dev/**"/>
+        <include name="${project-config-dir}/packages/test/**"/>
     </fileset>
 
     <fileset dir="${project-resources-doc-dir}" id="doc-rst">
