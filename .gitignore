@@ -6,13 +6,13 @@
 /.idea/
 /*.apache
 /*.nginx
-/public/css/*
-/public/js/*
-/public/manifest.json
+/web/css/*
+/web/js/*
+/web/manifest.json
 
 ###> symfony/framework-bundle ###
 /.env
-/public/bundles/
+/web/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###

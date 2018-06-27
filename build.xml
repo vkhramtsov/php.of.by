@@ -24,10 +24,10 @@
     <property name="php-bin" value="php" />
     <property name="project-composer-phar" value="composer.phar" />
     <property name="php-cs-fixer-bin" value="${project-vendor-bin-dir}/php-cs-fixer" />
-    <property name="project-public-dir" value="web"/>
-    <property name="project-public-bundles-dir" value="${project-public-dir}/bundles"/>
-    <property name="project-public-css-dir" value="${project-public-dir}/css"/>
-    <property name="project-public-js-dir" value="${project-public-dir}/js"/>
+    <property name="project-web-dir" value="web"/>
+    <property name="project-web-bundles-dir" value="${project-web-dir}/bundles"/>
+    <property name="project-web-css-dir" value="${project-web-dir}/css"/>
+    <property name="project-web-js-dir" value="${project-web-dir}/js"/>
     <property name="project-build-dir" value="build"/>
     <property name="project-build-output-dir" value="${project-build-dir}/output"/>
     <property name="project-file-doctrine-database-scheme" value="db-scheme.sql"/>
@@ -51,7 +51,7 @@
         <include name="${project-config-dir}/**"/>
         <include name="${project-src-dir}/**"/>
         <include name="${project-vendor-dir}/**/*"/>
-        <include name="${project-public-dir}/**"/>
+        <include name="${project-web-dir}/**"/>
         <include name="${project-bin-dir}/**"/>
         <include name="${project-var-dir}/**"/>
         <include name="${project-resources-doc-dir}/**"/>
@@ -66,6 +66,7 @@
     </fileset>
 
     <fileset dir="${project.basedir}" id="symfony-dev-only-files">
+        <include name="${project-web-dir}/check.php"/>
         <include name="${project-config-dir}/routes/dev/**"/>
         <include name="${project-config-dir}/packages/dev/**"/>
         <include name="${project-config-dir}/packages/test/**"/>
@@ -139,9 +140,9 @@
     </target>
 
     <target name="clean" description="Clean build artifacts">
-        <delete dir="${project-public-bundles-dir}"/>
-        <delete dir="${project-public-css-dir}"/>
-        <delete dir="${project-public-js-dir}"/>
+        <delete dir="${project-web-bundles-dir}"/>
+        <delete dir="${project-web-css-dir}"/>
+        <delete dir="${project-web-js-dir}"/>
         <delete dir="${project-build-output-dir}"/>
         <delete includeemptydirs="true">
             <fileset refid="symfony-temp"/>
@@ -221,6 +222,7 @@
         <SymfonyConsole command="assets:install" checkReturn="true" console="${symfony-bin-console}">
             <arg name="env" value="dev" />
             <arg value="--no-interaction" />
+            <arg value="${project-web-dir}" />
         </SymfonyConsole>
     </target>
 
@@ -229,6 +231,7 @@
             <arg name="env" value="prod" />
             <arg value="--no-debug" />
             <arg value="--no-interaction" />
+            <arg value="${project-web-dir}" />
         </SymfonyConsole>
     </target>
 

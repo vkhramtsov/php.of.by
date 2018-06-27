@@ -117,6 +117,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false
-        }
+        },
+        "public-dir": "web"
     }
 }
