@@ -54,6 +54,9 @@
         <include name="${project-web-dir}/**"/>
         <include name="${project-bin-dir}/**"/>
         <include name="${project-var-dir}/**"/>
+        <include name="db/**"/>
+        <include name="templates/**"/>
+        <include name="translations/**"/>
         <include name="${project-resources-doc-dir}/**"/>
         <include name="${project-file-package-version}"/>
         <include name="${project-file-doctrine-database-scheme}"/>
@@ -67,9 +70,9 @@
 
     <fileset dir="${project.basedir}" id="symfony-dev-only-files">
         <include name="${project-web-dir}/check.php"/>
-        <include name="${project-config-dir}/routes/dev/**"/>
-        <include name="${project-config-dir}/packages/dev/**"/>
-        <include name="${project-config-dir}/packages/test/**"/>
+        <include name="${project-config-dir}/routes/dev"/>
+        <include name="${project-config-dir}/packages/dev"/>
+        <include name="${project-config-dir}/packages/test"/>
     </fileset>
 
     <fileset dir="${project-resources-doc-dir}" id="doc-rst">

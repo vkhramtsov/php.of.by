@@ -10,7 +10,7 @@ General
 #. Verify that there are no new inspection warnings in IDE (if IDE supports it)
 #. Run ``php phing.phar`` before committing. If build successfully passed all targets before ``dependencies-list-updates``
    and ``dependencies-security-check`` then functionality could be send for code review.
-#. Be sure to revert ``web/config.php``, ``bin/symfony_requirements``
+#. Be sure to revert ``web/check.php``
 #. Check inspections in IDE (undefined variables etc.)
 #. Check file permissions (permissions must be ``0644``)
 #. Check if your git credentials for the current repo are correct: ``git config user.name && git config user.email``
