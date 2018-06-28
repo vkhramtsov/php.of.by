@@ -32,10 +32,10 @@ Creating environment
 #. Replace ``<sitename>`` with ``phpofby`` in ``~/www/phpofby/phpofby.nginx``
 #. Execute ``sudo service nginx restart`` if nginx config is correct
 #. Execute ``php phing.phar dependencies-install``
-#. Use all values from ``app/config/parameters.yml.dist`` for ``app/config/parameters.yml`` generation.
+#. Set proper values in ``.env`` file.
 #. Check application with ``php phing.phar``
-#. Add your workstation IP to ``web/config.php`` and ``web/app_dev.php``
-#. Check application with ``./bin/symfony_requirements``, ``http://your_host/config.php`` and ``http://your_host/app_dev.php``
+#. Add your workstation IP to ``web/check.php``
+#. Check application with ``vendor/bin/requirements-checker``, ``http://your_host/check.php`` and ``http://your_host/index.php``
 
 Privileges
 ----------
