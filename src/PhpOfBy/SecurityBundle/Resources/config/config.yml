@@ -1,2 +1,0 @@
-imports:
-    - { resource: fos_user_config.yml }

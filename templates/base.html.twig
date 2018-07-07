@@ -1,0 +1,31 @@
+{% import "macros.html.twig" as macros %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    <title>{% if title is defined %}{{ title }} - {% endif %}PhpOfBy</title>
+    <link rel="stylesheet" href="{{ asset('css/common.css') }}"/>
+    {% block stylesheets %}{% endblock %}
+    {{ macros.getGoogleAnalyticsCode(google_analytics_id) }}
+</head>
+<body>
+
+{{ macros.getTopMenu() }}
+
+{% block hero %}{% endblock %}
+
+<div class="container">
+    {% if title is defined %}
+        <h1>{{ title }}</h1>
+    {% endif %}
+
+    <section id="content">
+        {% block content %}{% endblock %}
+    </section>
+</div>
+{% block javascripts %}{% endblock %}
+<!-- Project: {{ project_name }} version: {{ project_version }} -->
+</body>
+</html>
