@@ -14,6 +14,10 @@ add('shared_dirs', []);
 add('writable_dirs', []);
 set('allow_anonymous_stats', false);
 
+set('bin/console', function () {
+    return parse('php {{release_path}}/bin/console --no-interaction');
+});
+
 // Hosts
 host(getenv('DEPLOY_HOST'))
     ->stage('production')
