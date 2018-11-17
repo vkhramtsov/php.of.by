@@ -14,16 +14,12 @@ add('shared_dirs', []);
 add('writable_dirs', []);
 set('allow_anonymous_stats', false);
 
-set('bin/console', function () {
-    return parse('php {{release_path}}/bin/console --no-interaction');
-});
-
 // Hosts
 host(getenv('DEPLOY_HOST'))
     ->stage('production')
     ->user(getenv('DEPLOY_USER'))
     ->identityFile('.travis/deploy.key')
-    ->set('deploy_path', '~/php.of.by/builds/');
+    ->set('deploy_path', getenv('DEPLOY_PATH'));
 
 task('deploy:package_upload', function(){
     // Upload code package to server
@@ -36,6 +32,12 @@ task('deploy:package_extract', function() {
     // Store package with release
     run(sprintf('/bin/mv %s/package.tgz %s', $deployPath, get('release_path')));
 })->desc('Extract package');
+
+
+task('deploy:change_prod_files', function () {
+    run("cd {{deploy_path}} && rm -Rf current && mv {{release_path}} current");
+    run("cd {{deploy_path}} && rm release");
+})->desc('Creating symlink to release');;
 
 // Tasks
 
@@ -52,7 +54,7 @@ task('deploy', [
 //    'deploy:vendors',
 //    'deploy:cache:clear',
 //    'deploy:cache:warmup',
-    'deploy:symlink',
+    'deploy:change_prod_files',
     'deploy:unlock',
     'cleanup',
 ]);
