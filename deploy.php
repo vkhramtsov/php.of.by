@@ -33,12 +33,6 @@ task('deploy:package_extract', function() {
     run(sprintf('/bin/mv %s/package.tgz %s', $deployPath, get('release_path')));
 })->desc('Extract package');
 
-
-task('deploy:change_prod_files', function () {
-    run("cd {{deploy_path}} && rm -Rf current && mv {{release_path}} current");
-    run("cd {{deploy_path}} && rm release");
-})->desc('Creating symlink to release');;
-
 // Tasks
 
 desc('Deploy project');
@@ -51,10 +45,9 @@ task('deploy', [
     'deploy:package_extract',
     'deploy:shared',
 //    'deploy:writable',
-//    'deploy:vendors',
 //    'deploy:cache:clear',
 //    'deploy:cache:warmup',
-    'deploy:change_prod_files',
+    'deploy:symlink',
     'deploy:unlock',
     'cleanup',
 ]);
