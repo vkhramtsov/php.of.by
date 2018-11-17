@@ -23,7 +23,7 @@ host(getenv('DEPLOY_HOST'))
     ->stage('production')
     ->user(getenv('DEPLOY_USER'))
     ->identityFile('.travis/deploy.key')
-    ->set('deploy_path', getenv('DEPLOY_PATH'));
+    ->set('deploy_path', '~/php.of.by/builds/');
 
 task('deploy:package_upload', function(){
     // Upload code package to server
