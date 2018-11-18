@@ -383,8 +383,8 @@
         <includepath classpath="${project-vendor-dir}/pear/console_getopt" mode="prepend"/>
         <includepath classpath="${project-vendor-dir}/pear/archive_tar" mode="prepend"/>
         <tar destfile="package.tgz" includeemptydirs="true" compression="gzip">
-            <fileset dir="${project.basedir}" >
-                <include name="${project-build-dir}/**" />
+            <fileset dir="${project-build-dir}" >
+                <include name="**" />
             </fileset>
         </tar>
     </target>
