@@ -6,7 +6,8 @@ require 'recipe/symfony4.php';
 // Project name
 set('application', 'php.of.by');
 
-// Shared files/dirs between deploys 
+// Shared files/dirs between deploys
+set('shared_files', []);
 add('shared_files', []);
 add('shared_dirs', []);
 
@@ -48,7 +49,7 @@ task('deploy', [
     'deploy:package_upload',
     'deploy:package_extract',
     'deploy:shared',
-//    'deploy:writable',
+    'deploy:writable',
 //    'deploy:cache:clear',
 //    'deploy:cache:warmup',
     'deploy:symlink',
