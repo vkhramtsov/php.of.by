@@ -51,8 +51,8 @@ task('deploy', [
     'deploy:package_extract',
     'deploy:shared',
     'deploy:writable',
-//    'deploy:cache:clear',
-//    'deploy:cache:warmup',
+    'deploy:cache:clear',
+    'deploy:cache:warmup',
     'deploy:symlink',
     'deploy:unlock',
     'cleanup',
@@ -63,5 +63,5 @@ after('deploy:failed', 'deploy:unlock');
 
 // Migrate database before symlink new release.
 
-//before('deploy:symlink', 'database:migrate');
+before('deploy:symlink', 'database:migrate');
 
