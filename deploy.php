@@ -14,6 +14,7 @@ add('shared_dirs', []);
 // Writable dirs by web server 
 add('writable_dirs', []);
 set('allow_anonymous_stats', false);
+set('writable_mode', 'chmod');
 
 // Hosts
 host(getenv('DEPLOY_HOST'))
