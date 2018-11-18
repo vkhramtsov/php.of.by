@@ -7,7 +7,6 @@ if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ $(phpenv version-name) = "7.1" ];
     #scp package.tgz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     #ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_PATH/deploy.sh
     #ssh $DEPLOY_USER@$DEPLOY_HOST php\ ~/php.of.by/builds/current/bin/console\ doctrine:migrations:migrate\ --env=prod
-    ssh $DEPLOY_USER@$DEPLOY_HOST rm\ -Rf\ ~/php.of.by/builds/current
-    ssh $DEPLOY_USER@$DEPLOY_HOST mv\ ~/php.of.by/builds/current_old\ ~/php.of.by/builds/current
-    #vendor/bin/dep deploy production
+    ssh $DEPLOY_USER@$DEPLOY_HOST mv\ ~/php.of.by/builds/current\ ~/php.of.by/builds/current_old
+    vendor/bin/dep deploy production
 fi

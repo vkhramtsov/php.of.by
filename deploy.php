@@ -21,6 +21,10 @@ host(getenv('DEPLOY_HOST'))
     ->identityFile('.travis/deploy.key')
     ->set('deploy_path', getenv('DEPLOY_PATH'));
 
+// User for setting proper permissions
+set('http_user', getenv('DEPLOY_USER'));
+set('http_group', getenv('DEPLOY_USER'));
+
 task('deploy:package_upload', function(){
     // Upload code package to server
     upload('package.tgz', sprintf('%s/package.tgz', get('deploy_path')));
