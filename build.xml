@@ -61,6 +61,8 @@
         <include name="${project-file-package-version}"/>
         <include name="${project-file-doctrine-database-scheme}"/>
         <include name="${project-file-config}" />
+        <include name="composer.json" />
+        <include name="composer.lock" />
     </fileset>
 
     <fileset dir="${project.basedir}" id="symfony-temp">
