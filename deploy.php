@@ -44,7 +44,7 @@ task('deploy:package_extract', function() {
 desc('Deploy project');
 task('deploy', [
     'deploy:info',
-    'deploy:prepare',
+    'deploy:setup',
     'deploy:lock',
     'deploy:release',
     'deploy:package_upload',
