@@ -1,14 +1,12 @@
-name: ci-build
+name: deploy
 
 on:
     push:
-        branches: [ "master" ]
-    pull_request:
-        branches: [ "master" ]
-        types: [ "opened", "synchronize" ]
+        tags:
+            - "*"
 
 jobs:
-    build-ci:
+    deploy:
         runs-on: ubuntu-latest
         steps:
             - name: Setup node
@@ -35,4 +33,4 @@ jobs:
             - name: Prepare database
               run: mysql -e "create database phpofby DEFAULT CHARACTER SET utf8; grant all on phpofby.* to 'symfony'@'localhost' identified by 'symfony';" -uroot -h127.0.0.1
             - name: Build
-              run: php phing.phar build-ci
+              run: php phing.phar package && eval "$(ssh-agent -s)" &&  chmod 600 .travis/deploy.key && ssh-add .travis/deploy.key && vendor/bin/dep deploy stage=production
